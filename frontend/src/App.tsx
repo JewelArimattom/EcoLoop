@@ -2,7 +2,7 @@ import Navbar from "./components/layout/Navbar"
 const App = () => {
   return (
     <div>
-     <Navbar />
+     <Navbar { ...{isLoggedIn: true, userName: 'John Doe', onLogout: () => {}}}/>
     </div>
   )
 }
