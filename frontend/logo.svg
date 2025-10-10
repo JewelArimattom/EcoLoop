@@ -1,0 +1,14 @@
+<svg viewBox="0 0 100 100" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)">
+    <defs>
+        <linearGradient id="grad3" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#2563EB;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#34D399;stop-opacity:1" />
+        </linearGradient>
+    </defs>
+     <!-- Outer Circle -->
+    <circle cx="50" cy="50" r="45" fill="url(#grad3)"/>
+    <!-- Inner 'e' shape -->
+    <path d="M68,50 A18,18 0 1,1 50,32 H 70" fill="none" stroke="white" stroke-width="9" stroke-linecap="round"/>
+     <!-- Leaf part on the 'e' -->
+    <path d="M70,32 C 75 27, 85 30, 80 38 Z" fill="white"/>
+</svg>
