@@ -12,9 +12,16 @@ const app = express();
 app.use(helmet()); // Security headers
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' 
-    ? [process.env.FRONTEND_URL, 'https://eco-loop.vercel.app', 'https://your-production-domain.com']
+    ? [
+        process.env.FRONTEND_URL, 
+        'https://ecoloop.earth',
+        'https://www.ecoloop.earth',
+        'https://eco-loop.vercel.app'
+      ]
     : ['http://localhost:5173', 'http://localhost:3000', 'http://localhost:5174', 'http://localhost:3001'],
-  credentials: true
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 app.use(express.json()); // Parse JSON bodies
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
