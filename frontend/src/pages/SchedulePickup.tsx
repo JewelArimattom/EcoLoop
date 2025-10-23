@@ -1,46 +1,49 @@
-// src/pages/SchedulePickup.tsx
+// src/pages/SchedulePickupSimple.tsx
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { 
-  Smartphone, Battery, Zap, Wrench,
-  Package, FileText, Trash2, ArrowLeft, ArrowRight, CheckCircle,
-  MapPin, Phone, Calendar, Clock, TrendingUp, Shield, Home
+  Smartphone, Battery, Zap, Package,
+  ArrowLeft, ArrowRight, CheckCircle, MapPin, Calendar, AlertCircle, Loader
 } from 'lucide-react';
+import { pickupAPI } from '../services/api';
+import { useAuth } from '../context/AuthContext';
 
 const SchedulePickup: React.FC = () => {
+  const navigate = useNavigate();
+  const { user } = useAuth();
   const [currentStep, setCurrentStep] = useState(1);
-  const [customItemInput, setCustomItemInput] = useState('');
   const [isLoadingLocation, setIsLoadingLocation] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
+  const [trackingNumber, setTrackingNumber] = useState('');
+  
   const [formData, setFormData] = useState({
-    // Step 1: Item Details
     category: '',
-    items: [] as Array<{ type: string; quantity: number; condition: string }>,
-    
-    // Step 2: Location & Contact
+    items: [] as string[],
+    customItem: '',
+    pickupType: 'immediate',
+    scheduledDate: '',
+    scheduledTime: '',
+    contactName: user?.name || '',
+    phone: user?.phone || '',
+    email: user?.email || '',
     address: '',
-    landmark: '',
-    pincode: '',
     city: '',
     state: '',
-    contactName: '',
-    phone: '',
-    alternatePhone: '',
-    
-    // Step 3: Schedule
-    pickupType: 'immediate', // Default to immediate
-    preferredDate: '',
-    timeSlot: '',
-    specialInstructions: ''
+    pincode: '',
   });
 
+  const [errors, setErrors] = useState<any>({});
+
   const categories = [
-    { id: 'ewaste', name: 'E-Waste', Icon: Smartphone, items: ['Smartphone', 'Laptop', 'Tablet', 'Desktop Computer', 'Printer', 'TV', 'Monitor', 'Keyboard', 'Mouse', 'Router', 'Speaker', 'Camera'] },
-    { id: 'batteries', name: 'Batteries', Icon: Battery, items: ['Mobile Battery', 'Laptop Battery', 'Power Bank', 'UPS Battery', 'Car Battery', 'Button Cells', 'Inverter Battery'] },
-    { id: 'appliances', name: 'Appliances', Icon: Zap, items: ['Refrigerator', 'Washing Machine', 'AC', 'Microwave', 'Mixer', 'Iron', 'Toaster', 'Water Purifier', 'Geyser', 'Fan'] },
-    { id: 'metal', name: 'Metal Scrap', Icon: Wrench, items: ['Aluminum', 'Copper', 'Brass', 'Steel', 'Iron', 'Mixed Metal', 'Electronic Components'] },
-    { id: 'plastic', name: 'Plastic', Icon: Package, items: ['PET Bottles', 'Plastic Containers', 'Mixed Plastic', 'E-Waste Plastic', 'Furniture Plastic'] },
-    { id: 'paper', name: 'Paper', Icon: FileText, items: ['Newspaper', 'Books', 'Cardboard', 'Office Paper', 'Magazines', 'Notebooks'] },
-    { id: 'other', name: 'Other Items', Icon: Trash2, items: ['Glass', 'Furniture', 'Clothes', 'Shoes', 'Toys', 'Kitchen Items'] }
+    { id: 'Smartphones & Tablets', name: 'Smartphones & Tablets', Icon: Smartphone, 
+      items: ['Smartphone', 'Tablet', 'Smartwatch', 'E-reader', 'Charger', 'Earphones'] },
+    { id: 'Laptops & Computers', name: 'Laptops & Computers', Icon: Package, 
+      items: ['Laptop', 'Desktop', 'Monitor', 'Keyboard', 'Mouse', 'Printer'] },
+    { id: 'Batteries & Chargers', name: 'Batteries & Chargers', Icon: Battery, 
+      items: ['Mobile Battery', 'Laptop Battery', 'Power Bank', 'Charger', 'UPS'] },
+    { id: 'Other Items', name: 'Other Items', Icon: Zap, 
+      items: ['TV', 'Refrigerator', 'AC', 'Washing Machine', 'Microwave', 'Other (Type custom item)'] },
   ];
 
   const timeSlots = [
@@ -51,77 +54,65 @@ const SchedulePickup: React.FC = () => {
     '5:00 PM - 7:00 PM'
   ];
 
-  const addItem = () => {
+  const toggleItem = (item: string) => {
     setFormData(prev => ({
       ...prev,
-      items: [...prev.items, { type: '', quantity: 1, condition: 'working' }]
+      items: prev.items.includes(item)
+        ? prev.items.filter(i => i !== item)
+        : [...prev.items, item]
     }));
   };
 
-  const updateItem = (index: number, field: string, value: string | number) => {
-    setFormData(prev => ({
-      ...prev,
-      items: prev.items.map((item, i) => 
-        i === index ? { ...item, [field]: value } : item
-      )
-    }));
-  };
-
-  const removeItem = (index: number) => {
-    setFormData(prev => ({
-      ...prev,
-      items: prev.items.filter((_, i) => i !== index)
-    }));
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const validateStep = (step: number) => {
+    const newErrors: any = {};
     
-    // Validate Step 1
-    if (currentStep === 1) {
-      if (!formData.category || formData.items.length === 0) {
-        alert('Please select a category and add at least one item.');
-        return;
+    if (step === 1) {
+      if (!formData.category) newErrors.category = 'Please select a category';
+      if (formData.items.length === 0) newErrors.items = 'Please select at least one item';
+      if (formData.items.includes('Other (Type custom item)') && !formData.customItem) {
+        newErrors.customItem = 'Please specify the custom item';
       }
-      setCurrentStep(2);
-      return;
     }
     
-    // Validate Step 2
-    if (currentStep === 2) {
-      if (!formData.contactName || !formData.phone || !formData.address || 
-          !formData.pincode || !formData.city || !formData.state) {
-        alert('Please fill in all required fields.');
-        return;
+    if (step === 2) {
+      if (!formData.contactName) newErrors.contactName = 'Name is required';
+      if (!formData.phone) {
+        newErrors.phone = 'Phone is required';
+      } else if (!/^[0-9]{10}$/.test(formData.phone)) {
+        newErrors.phone = 'Please enter a valid 10-digit phone number';
       }
-      if (!/^[0-9]{10}$/.test(formData.phone)) {
-        alert('Please enter a valid 10-digit phone number.');
-        return;
+      if (!formData.address) newErrors.address = 'Address is required';
+      if (!formData.city) newErrors.city = 'City is required';
+      if (!formData.state) newErrors.state = 'State is required';
+      if (!formData.pincode) {
+        newErrors.pincode = 'Pincode is required';
+      } else if (!/^[0-9]{6}$/.test(formData.pincode)) {
+        newErrors.pincode = 'Please enter a valid 6-digit pincode';
       }
-      if (!/^[0-9]{6}$/.test(formData.pincode)) {
-        alert('Please enter a valid 6-digit pincode.');
-        return;
-      }
-      setCurrentStep(3);
-      return;
     }
     
-    // Validate Step 3
-    if (currentStep === 3) {
+    if (step === 3) {
       if (formData.pickupType === 'scheduled') {
-        if (!formData.preferredDate || !formData.timeSlot) {
-          alert('Please select a date and time slot for scheduled pickup.');
-          return;
-        }
+        if (!formData.scheduledDate) newErrors.scheduledDate = 'Please select a date';
+        if (!formData.scheduledTime) newErrors.scheduledTime = 'Please select a time slot';
       }
     }
     
-    // Handle form submission
-    console.log('Pickup scheduled:', formData);
-    setCurrentStep(4); // Success step
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
-  // Fetch user location automatically
+  const handleNext = () => {
+    if (validateStep(currentStep)) {
+      setCurrentStep(prev => prev + 1);
+    }
+  };
+
+  const handleBack = () => {
+    setCurrentStep(prev => prev - 1);
+    setErrors({});
+  };
+
   const fetchLocation = async () => {
     setIsLoadingLocation(true);
     
@@ -135,8 +126,6 @@ const SchedulePickup: React.FC = () => {
       async (position) => {
         try {
           const { latitude, longitude } = position.coords;
-          
-          // Using OpenStreetMap Nominatim for reverse geocoding (free)
           const response = await fetch(
             `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
           );
@@ -153,675 +142,469 @@ const SchedulePickup: React.FC = () => {
           }
         } catch (error) {
           console.error('Error fetching location:', error);
-          alert('Could not fetch location details. Please enter manually.');
+          alert('Could not fetch location. Please enter manually.');
         } finally {
           setIsLoadingLocation(false);
         }
       },
       (error) => {
         console.error('Geolocation error:', error);
-        alert('Could not access your location. Please enter address manually.');
+        alert('Could not access location. Please enter manually.');
         setIsLoadingLocation(false);
       }
     );
   };
 
-  // Get tomorrow's date for min date
-  const getTomorrowDate = () => {
-    const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    return tomorrow.toISOString().split('T')[0];
+  const handleSubmit = async () => {
+    if (!validateStep(3)) return;
+
+    setIsSubmitting(true);
+    setSubmitError('');
+
+    try {
+      const pickupData = {
+        category: formData.category,
+        items: formData.items,
+        customItem: formData.customItem,
+        pickupType: formData.pickupType,
+        scheduledDate: formData.pickupType === 'scheduled' ? formData.scheduledDate : undefined,
+        scheduledTime: formData.pickupType === 'scheduled' ? formData.scheduledTime : undefined,
+        contactInfo: {
+          name: formData.contactName,
+          phone: formData.phone,
+          email: formData.email
+        },
+        address: {
+          street: formData.address,
+          city: formData.city,
+          state: formData.state,
+          pincode: formData.pincode
+        }
+      };
+
+      const response = await pickupAPI.create(pickupData);
+      setTrackingNumber(response.pickup.trackingNumber);
+      setCurrentStep(4); // Success step
+    } catch (error: any) {
+      console.error('Pickup submission error:', error);
+      setSubmitError(error.response?.data?.message || 'Failed to schedule pickup. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-teal-50 py-12 px-4">
+      <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
-          <Link to="/" className="inline-flex items-center gap-2 text-emerald-600 hover:text-emerald-700 mb-4">
-            <ArrowLeft className="w-4 h-4" />
-            Back to Home
-          </Link>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Schedule Free Pickup</h1>
-          <p className="text-lg text-gray-600">Our executive will visit, evaluate items, and offer best price on the spot</p>
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent mb-2">
+            Schedule E-Waste Pickup
+          </h1>
+          <p className="text-gray-600">Book your free pickup in 3 simple steps</p>
         </div>
 
-        {/* Progress Steps */}
+        {/* Progress Indicator */}
         <div className="mb-8">
-          <div className="flex items-center justify-between mb-4">
-            {[
-              { step: 1, icon: Package, label: 'Items' },
-              { step: 2, icon: MapPin, label: 'Location' },
-              { step: 3, icon: Calendar, label: 'Schedule' }
-            ].map(({ step, icon: Icon, label }) => (
-              <div key={step} className="flex flex-col items-center flex-1">
-                <div className={`w-12 h-12 rounded-full flex items-center justify-center font-semibold transition-all ${
+          <div className="flex items-center justify-between max-w-2xl mx-auto">
+            {[1, 2, 3].map((step) => (
+              <div key={step} className="flex items-center flex-1">
+                <div className={`flex items-center justify-center w-10 h-10 rounded-full font-bold ${
                   currentStep >= step 
-                    ? 'bg-emerald-500 text-white shadow-lg' 
+                    ? 'bg-gradient-to-r from-emerald-500 to-teal-600 text-white' 
                     : 'bg-gray-200 text-gray-500'
                 }`}>
-                  {currentStep > step ? (
-                    <CheckCircle className="w-6 h-6" />
-                  ) : (
-                    <Icon className="w-6 h-6" />
-                  )}
+                  {currentStep > step ? <CheckCircle className="w-6 h-6" /> : step}
                 </div>
-                <span className={`text-sm mt-2 ${
-                  currentStep >= step ? 'text-emerald-600 font-medium' : 'text-gray-500'
-                }`}>
-                  {label}
-                </span>
+                {step < 3 && (
+                  <div className={`flex-1 h-1 mx-2 ${currentStep > step ? 'bg-emerald-500' : 'bg-gray-200'}`} />
+                )}
               </div>
             ))}
           </div>
-          <div className="relative">
-            <div className="absolute top-1/2 left-0 right-0 h-1 bg-gray-200 -translate-y-1/2"></div>
-            <div 
-              className="absolute top-1/2 left-0 h-1 bg-emerald-500 -translate-y-1/2 transition-all duration-300"
-              style={{ width: `${((currentStep - 1) / 2) * 100}%` }}
-            ></div>
+          <div className="flex justify-between max-w-2xl mx-auto mt-2 text-sm font-medium">
+            <span className={currentStep >= 1 ? 'text-emerald-600' : 'text-gray-500'}>Select Items</span>
+            <span className={currentStep >= 2 ? 'text-emerald-600' : 'text-gray-500'}>Contact Info</span>
+            <span className={currentStep >= 3 ? 'text-emerald-600' : 'text-gray-500'}>Schedule</span>
           </div>
         </div>
 
-        {/* Form Container */}
-        <div className="card p-6 md:p-8">
-          {currentStep === 4 ? (
-            /* Success Step */
-            <div className="text-center py-12">
-              <div className="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <CheckCircle className="w-12 h-12 text-emerald-600" />
-              </div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">Pickup Scheduled Successfully!</h2>
-              <p className="text-gray-600 mb-6 max-w-md mx-auto">
-                Your free pickup has been scheduled. Our certified executive will visit you at the scheduled time for item evaluation and instant payment.
-              </p>
+        {/* Form Card */}
+        <div className="bg-white rounded-2xl shadow-xl p-8">
+          {submitError && (
+            <div className="mb-6 bg-red-50 border border-red-200 rounded-xl p-4 flex items-start gap-3">
+              <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
+              <p className="text-sm text-red-700">{submitError}</p>
+            </div>
+          )}
+
+          {/* Step 1: Select Items */}
+          {currentStep === 1 && (
+            <div className="space-y-6">
+              <h2 className="text-2xl font-bold text-gray-900">Step 1: What would you like to recycle?</h2>
               
-              <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-6 mb-6 max-w-md mx-auto">
-                <h3 className="font-semibold text-emerald-800 mb-3">Pickup Details</h3>
-                <div className="text-left space-y-3 text-sm">
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Pickup Type:</span>
-                    <span className="font-semibold">
-                      {formData.pickupType === 'immediate' ? 'Immediate (Next Available)' : 'Scheduled'}
-                    </span>
+              {/* Category Selection */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-3">Select Category</label>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  {categories.map((cat) => (
+                    <button
+                      key={cat.id}
+                      type="button"
+                      onClick={() => setFormData(prev => ({ ...prev, category: cat.id, items: [] }))}
+                      className={`p-4 rounded-xl border-2 transition-all ${
+                        formData.category === cat.id
+                          ? 'border-emerald-500 bg-emerald-50'
+                          : 'border-gray-200 hover:border-emerald-300'
+                      }`}
+                    >
+                      <cat.Icon className={`w-8 h-8 mx-auto mb-2 ${
+                        formData.category === cat.id ? 'text-emerald-600' : 'text-gray-600'
+                      }`} />
+                      <span className="text-sm font-medium text-gray-900">{cat.name}</span>
+                    </button>
+                  ))}
+                </div>
+                {errors.category && <p className="text-sm text-red-600 mt-2">{errors.category}</p>}
+              </div>
+
+              {/* Items Selection */}
+              {formData.category && (
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-3">Select Items to Recycle</label>
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                    {categories.find(c => c.id === formData.category)?.items.map((item) => (
+                      <button
+                        key={item}
+                        type="button"
+                        onClick={() => toggleItem(item)}
+                        className={`px-4 py-3 rounded-xl border-2 text-sm font-medium transition-all ${
+                          formData.items.includes(item)
+                            ? 'border-emerald-500 bg-emerald-50 text-emerald-700'
+                            : 'border-gray-200 text-gray-700 hover:border-emerald-300'
+                        }`}
+                      >
+                        {formData.items.includes(item) && <CheckCircle className="w-4 h-4 inline mr-2" />}
+                        {item}
+                      </button>
+                    ))}
                   </div>
-                  {formData.pickupType === 'scheduled' && (
-                    <>
-                      <div className="flex justify-between">
-                        <span className="text-gray-600">Pickup Date:</span>
-                        <span className="font-semibold">{formData.preferredDate}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-gray-600">Time Slot:</span>
-                        <span className="font-semibold">{formData.timeSlot}</span>
-                      </div>
-                    </>
-                  )}
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Items:</span>
-                    <span className="font-semibold">{formData.items.length} items</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Status:</span>
-                    <span className="font-semibold text-emerald-600">Confirmed</span>
-                  </div>
+                  {errors.items && <p className="text-sm text-red-600 mt-2">{errors.items}</p>}
+                </div>
+              )}
+
+              {/* Custom Item Input */}
+              {formData.items.includes('Other (Type custom item)') && (
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Specify Custom Item</label>
+                  <input
+                    type="text"
+                    value={formData.customItem}
+                    onChange={(e) => setFormData(prev => ({ ...prev, customItem: e.target.value }))}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                    placeholder="Enter item name"
+                  />
+                  {errors.customItem && <p className="text-sm text-red-600 mt-2">{errors.customItem}</p>}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Step 2: Contact & Address */}
+          {currentStep === 2 && (
+            <div className="space-y-6">
+              <h2 className="text-2xl font-bold text-gray-900">Step 2: Contact & Pickup Address</h2>
+              
+              {/* Auto-fetch Location */}
+              <button
+                type="button"
+                onClick={fetchLocation}
+                disabled={isLoadingLocation}
+                className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-xl font-medium transition-all disabled:opacity-50"
+              >
+                {isLoadingLocation ? (
+                  <>
+                    <Loader className="w-5 h-5 animate-spin" />
+                    Fetching location...
+                  </>
+                ) : (
+                  <>
+                    <MapPin className="w-5 h-5" />
+                    Auto-detect My Location
+                  </>
+                )}
+              </button>
+
+              {/* Contact Info */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Full Name *</label>
+                  <input
+                    type="text"
+                    value={formData.contactName}
+                    onChange={(e) => setFormData(prev => ({ ...prev, contactName: e.target.value }))}
+                    className={`w-full px-4 py-3 border ${errors.contactName ? 'border-red-300' : 'border-gray-300'} rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent`}
+                    placeholder="John Doe"
+                  />
+                  {errors.contactName && <p className="text-sm text-red-600 mt-1">{errors.contactName}</p>}
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Phone Number *</label>
+                  <input
+                    type="tel"
+                    value={formData.phone}
+                    onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
+                    className={`w-full px-4 py-3 border ${errors.phone ? 'border-red-300' : 'border-gray-300'} rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent`}
+                    placeholder="9876543210"
+                    maxLength={10}
+                  />
+                  {errors.phone && <p className="text-sm text-red-600 mt-1">{errors.phone}</p>}
                 </div>
               </div>
 
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6 max-w-md mx-auto">
-                <div className="flex items-start gap-3 mb-3">
-                  <div className="p-2 bg-blue-100 rounded-lg">
-                    <TrendingUp className="w-5 h-5 text-blue-600" />
-                  </div>
-                  <h4 className="font-semibold text-blue-800">What to Expect:</h4>
-                </div>
-                <ul className="text-sm text-blue-700 text-left space-y-1">
-                  <li className="flex items-start gap-2">
-                    <Clock className="w-4 h-4 flex-shrink-0 mt-0.5" />
-                    <span>Our executive will visit at scheduled time</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />
-                    <span>Professional evaluation of your items</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <TrendingUp className="w-4 h-4 flex-shrink-0 mt-0.5" />
-                    <span>Best price offer based on current market rates</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />
-                    <span>Instant payment via UPI, cash, or bank transfer</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <Home className="w-4 h-4 flex-shrink-0 mt-0.5" />
-                    <span>Free doorstep pickup after payment</span>
-                  </li>
-                </ul>
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Email (Optional)</label>
+                <input
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                  placeholder="john@example.com"
+                />
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link
-                  to="/"
-                  className="btn btn-primary px-6 py-3"
-                >
-                  Back to Home
-                </Link>
-                <Link
-                  to="/track-pickup"
-                  className="btn btn-outline px-6 py-3"
-                >
-                  Track Pickup Status
-                </Link>
+              {/* Address */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Pickup Address *</label>
+                <textarea
+                  value={formData.address}
+                  onChange={(e) => setFormData(prev => ({ ...prev, address: e.target.value }))}
+                  className={`w-full px-4 py-3 border ${errors.address ? 'border-red-300' : 'border-gray-300'} rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent`}
+                  rows={3}
+                  placeholder="Street address, building name, floor"
+                />
+                {errors.address && <p className="text-sm text-red-600 mt-1">{errors.address}</p>}
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">City *</label>
+                  <input
+                    type="text"
+                    value={formData.city}
+                    onChange={(e) => setFormData(prev => ({ ...prev, city: e.target.value }))}
+                    className={`w-full px-4 py-3 border ${errors.city ? 'border-red-300' : 'border-gray-300'} rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent`}
+                    placeholder="Mumbai"
+                  />
+                  {errors.city && <p className="text-sm text-red-600 mt-1">{errors.city}</p>}
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">State *</label>
+                  <input
+                    type="text"
+                    value={formData.state}
+                    onChange={(e) => setFormData(prev => ({ ...prev, state: e.target.value }))}
+                    className={`w-full px-4 py-3 border ${errors.state ? 'border-red-300' : 'border-gray-300'} rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent`}
+                    placeholder="Maharashtra"
+                  />
+                  {errors.state && <p className="text-sm text-red-600 mt-1">{errors.state}</p>}
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Pincode *</label>
+                  <input
+                    type="text"
+                    value={formData.pincode}
+                    onChange={(e) => setFormData(prev => ({ ...prev, pincode: e.target.value }))}
+                    className={`w-full px-4 py-3 border ${errors.pincode ? 'border-red-300' : 'border-gray-300'} rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent`}
+                    placeholder="400001"
+                    maxLength={6}
+                  />
+                  {errors.pincode && <p className="text-sm text-red-600 mt-1">{errors.pincode}</p>}
+                </div>
               </div>
             </div>
-          ) : (
-            <form onSubmit={handleSubmit}>
-              {/* Step 1: Item Selection */}
-              {currentStep === 1 && (
-                <div className="space-y-6">
-                  <div>
-                    <h2 className="text-xl font-semibold text-gray-900 mb-4">What items do you want to sell?</h2>
-                    <p className="text-gray-600 mb-6">Select the category and add your items. Our executive will evaluate and offer best price during pickup.</p>
-                    
-                    {/* Category Selection */}
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
-                      {categories.map(category => (
-                        <button
-                          key={category.id}
-                          type="button"
-                          onClick={() => setFormData(prev => ({ ...prev, category: category.id }))}
-                          className={`p-4 rounded-lg border-2 text-left transition-all ${
-                            formData.category === category.id 
-                              ? 'border-emerald-500 bg-emerald-50' 
-                              : 'border-gray-200 hover:border-emerald-300'
-                          }`}
-                        >
-                          {(() => {
-                            const Icon = category.Icon;
-                            return (
-                              <div className={`inline-flex p-3 rounded-xl mb-2 ${
-                                formData.category === category.id
-                                  ? 'bg-emerald-100'
-                                  : 'bg-gray-100'
-                              }`}>
-                                <Icon className={`w-6 h-6 ${
-                                  formData.category === category.id
-                                    ? 'text-emerald-600'
-                                    : 'text-gray-600'
-                                }`} />
-                              </div>
-                            );
-                          })()}
-                          <div className="font-medium text-gray-900">{category.name}</div>
-                        </button>
-                      ))}
-                    </div>
-
-                    {/* Item Details */}
-                    {formData.category && (
-                      <div className="bg-gray-50 rounded-lg p-6">
-                        <div className="flex justify-between items-center mb-4">
-                          <h3 className="font-semibold text-gray-900">Add Your Items</h3>
-                          <button
-                            type="button"
-                            onClick={addItem}
-                            className="btn btn-primary text-sm py-2 px-4"
-                          >
-                            + Add Item
-                          </button>
-                        </div>
-
-                        {formData.items.length === 0 ? (
-                          <div className="text-center py-8 text-gray-500">
-                            <div className="inline-flex p-4 rounded-2xl bg-gray-100 mb-4">
-                              <Package className="w-12 h-12 text-gray-400" />
-                            </div>
-                            <p>Add the items you want to sell</p>
-                            <p className="text-sm mt-2">Our executive will evaluate them during pickup</p>
-                          </div>
-                        ) : (
-                          <div className="space-y-4">
-                            {formData.items.map((item, index) => (
-                              <div key={index} className="bg-white p-4 rounded-lg border border-gray-200">
-                                <div className="flex justify-between items-start mb-3">
-                                  <h4 className="font-medium text-gray-900">Item {index + 1}</h4>
-                                  <button
-                                    type="button"
-                                    onClick={() => removeItem(index)}
-                                    className="text-red-500 hover:text-red-700 text-sm"
-                                  >
-                                    Remove
-                                  </button>
-                                </div>
-                                
-                                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                  <div>
-                                    <label className="label">Item Type *</label>
-                                    <select
-                                      value={item.type}
-                                      onChange={(e) => {
-                                        if (e.target.value === 'custom') {
-                                          setCustomItemInput('');
-                                        }
-                                        updateItem(index, 'type', e.target.value);
-                                      }}
-                                      className="input"
-                                      required
-                                    >
-                                      <option value="">Select Item</option>
-                                      {categories.find(cat => cat.id === formData.category)?.items.map(itemType => (
-                                        <option key={itemType} value={itemType}>{itemType}</option>
-                                      ))}
-                                      <option value="custom">Other (Type custom item)</option>
-                                    </select>
-                                    {item.type === 'custom' && (
-                                      <input
-                                        type="text"
-                                        value={customItemInput}
-                                        onChange={(e) => {
-                                          setCustomItemInput(e.target.value);
-                                          updateItem(index, 'type', e.target.value);
-                                        }}
-                                        className="input mt-2"
-                                        placeholder="Enter custom item name"
-                                        required
-                                      />
-                                    )}
-                                  </div>
-                                  
-                                  <div>
-                                    <label className="label">Quantity *</label>
-                                    <input
-                                      type="number"
-                                      min="1"
-                                      value={item.quantity}
-                                      onChange={(e) => updateItem(index, 'quantity', parseInt(e.target.value))}
-                                      className="input"
-                                      required
-                                    />
-                                  </div>
-                                  
-                                  <div>
-                                    <label className="label">Condition *</label>
-                                    <select
-                                      value={item.condition}
-                                      onChange={(e) => updateItem(index, 'condition', e.target.value)}
-                                      className="input"
-                                      required
-                                    >
-                                      <option value="working">Working</option>
-                                      <option value="not-working">Not Working</option>
-                                      <option value="damaged">Damaged/Broken</option>
-                                      <option value="scrap">Scrap/For Parts</option>
-                                    </select>
-                                  </div>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        )}
-
-                        {formData.items.length > 0 && (
-                          <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                            <div className="flex items-start gap-4">
-                              <div className="text-2xl">💡</div>
-                              <div>
-                                <div className="font-semibold text-blue-800 mb-1">Price Evaluation Process</div>
-                                <div className="text-sm text-blue-700">
-                                  Our certified executive will visit your location, physically inspect all items, 
-                                  and offer you the best possible price based on current market rates and item condition.
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="flex justify-end">
-                    <button
-                      type="button"
-                      onClick={(e) => handleSubmit(e as any)}
-                      disabled={formData.items.length === 0}
-                      className="btn btn-primary px-8 py-3 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
-                    >
-                      Continue to Location
-                      <ArrowRight className="w-5 h-5" />
-                    </button>
-                  </div>
-                </div>
-              )}
-
-              {/* Step 2: Location & Contact */}
-              {currentStep === 2 && (
-                <div className="space-y-6">
-                  <div className="flex items-center justify-between">
-                    <h2 className="text-xl font-semibold text-gray-900">Where should we come for pickup?</h2>
-                    <button
-                      type="button"
-                      onClick={fetchLocation}
-                      disabled={isLoadingLocation}
-                      className="flex items-center gap-2 px-4 py-2 bg-emerald-100 hover:bg-emerald-200 text-emerald-700 rounded-lg text-sm font-semibold transition-all disabled:opacity-50"
-                    >
-                      {isLoadingLocation ? (
-                        <>
-                          <div className="w-4 h-4 border-2 border-emerald-600 border-t-transparent rounded-full animate-spin"></div>
-                          Fetching...
-                        </>
-                      ) : (
-                        <>
-                          <MapPin className="w-4 h-4" />
-                          Auto-detect Location
-                        </>
-                      )}
-                    </button>
-                  </div>
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                      <label className="label">Full Name *</label>
-                      <input
-                        type="text"
-                        value={formData.contactName}
-                        onChange={(e) => setFormData(prev => ({ ...prev, contactName: e.target.value }))}
-                        className="input"
-                        placeholder="Enter your full name"
-                        required
-                      />
-                    </div>
-                    
-                    <div>
-                      <label className="label">Phone Number *</label>
-                      <input
-                        type="tel"
-                        value={formData.phone}
-                        onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
-                        className="input"
-                        placeholder="Enter 10-digit mobile number"
-                        pattern="[0-9]{10}"
-                        required
-                      />
-                    </div>
-                    
-                    <div className="md:col-span-2">
-                      <label className="label">Complete Address *</label>
-                      <textarea
-                        value={formData.address}
-                        onChange={(e) => setFormData(prev => ({ ...prev, address: e.target.value }))}
-                        className="input h-20 resize-none"
-                        placeholder="House/Flat number, Building, Street, Area"
-                        required
-                      />
-                    </div>
-                    
-                    <div>
-                      <label className="label">Landmark</label>
-                      <input
-                        type="text"
-                        value={formData.landmark}
-                        onChange={(e) => setFormData(prev => ({ ...prev, landmark: e.target.value }))}
-                        className="input"
-                        placeholder="Nearby landmark for easy location"
-                      />
-                    </div>
-                    
-                    <div>
-                      <label className="label">Pincode *</label>
-                      <input
-                        type="text"
-                        value={formData.pincode}
-                        onChange={(e) => setFormData(prev => ({ ...prev, pincode: e.target.value }))}
-                        className="input"
-                        placeholder="Enter 6-digit pincode"
-                        pattern="[0-9]{6}"
-                        required
-                      />
-                    </div>
-                    
-                    <div>
-                      <label className="label">City *</label>
-                      <input
-                        type="text"
-                        value={formData.city}
-                        onChange={(e) => setFormData(prev => ({ ...prev, city: e.target.value }))}
-                        className="input"
-                        placeholder="Enter your city"
-                        required
-                      />
-                    </div>
-                    
-                    <div>
-                      <label className="label">State *</label>
-                      <input
-                        type="text"
-                        value={formData.state}
-                        onChange={(e) => setFormData(prev => ({ ...prev, state: e.target.value }))}
-                        className="input"
-                        placeholder="Enter your state"
-                        required
-                      />
-                    </div>
-                  </div>
-
-                  <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-4">
-                    <div className="flex items-center gap-3">
-                      <div className="flex-shrink-0">
-                        <div className="p-2 bg-emerald-100 rounded-lg">
-                          <Shield className="w-6 h-6 text-emerald-600" />
-                        </div>
-                      </div>
-                      <div>
-                        <div className="font-semibold text-emerald-800">Your Privacy is Protected</div>
-                        <div className="text-sm text-emerald-700">
-                          Your contact details are only shared with our certified pickup executive for scheduling purposes.
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="flex justify-between">
-                    <button
-                      type="button"
-                      onClick={() => setCurrentStep(1)}
-                      className="btn btn-ghost px-6 py-3 flex items-center gap-2"
-                    >
-                      <ArrowLeft className="w-4 h-4" />
-                      Back to Items
-                    </button>
-                    <button
-                      type="button"
-                      onClick={(e) => handleSubmit(e as any)}
-                      className="btn btn-primary px-8 py-3 flex items-center gap-2"
-                    >
-                      Choose Pickup Time
-                      <ArrowRight className="w-5 h-5" />
-                    </button>
-                  </div>
-                </div>
-              )}
-
-              {/* Step 3: Schedule Pickup */}
-              {currentStep === 3 && (
-                <div className="space-y-6">
-                  <h2 className="text-xl font-semibold text-gray-900 mb-4">Choose your preferred pickup time</h2>
-                  
-                  {/* Pickup Type Selection */}
-                  <div>
-                    <label className="label">Pickup Type *</label>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <button
-                        type="button"
-                        onClick={() => setFormData(prev => ({ ...prev, pickupType: 'immediate', preferredDate: '', timeSlot: '' }))}
-                        className={`p-4 rounded-xl border-2 text-left transition-all ${
-                          formData.pickupType === 'immediate'
-                            ? 'border-emerald-500 bg-emerald-50'
-                            : 'border-gray-200 hover:border-emerald-300'
-                        }`}
-                      >
-                        <div className="flex items-start gap-3">
-                          <div className={`p-2 rounded-lg ${
-                            formData.pickupType === 'immediate' ? 'bg-emerald-100' : 'bg-gray-100'
-                          }`}>
-                            <Zap className={`w-5 h-5 ${
-                              formData.pickupType === 'immediate' ? 'text-emerald-600' : 'text-gray-600'
-                            }`} />
-                          </div>
-                          <div>
-                            <div className="font-semibold text-gray-900">Immediate Pickup</div>
-                            <div className="text-sm text-gray-600 mt-1">
-                              We'll schedule the earliest available slot for you
-                            </div>
-                          </div>
-                        </div>
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() => setFormData(prev => ({ ...prev, pickupType: 'scheduled' }))}
-                        className={`p-4 rounded-xl border-2 text-left transition-all ${
-                          formData.pickupType === 'scheduled'
-                            ? 'border-emerald-500 bg-emerald-50'
-                            : 'border-gray-200 hover:border-emerald-300'
-                        }`}
-                      >
-                        <div className="flex items-start gap-3">
-                          <div className={`p-2 rounded-lg ${
-                            formData.pickupType === 'scheduled' ? 'bg-emerald-100' : 'bg-gray-100'
-                          }`}>
-                            <Calendar className={`w-5 h-5 ${
-                              formData.pickupType === 'scheduled' ? 'text-emerald-600' : 'text-gray-600'
-                            }`} />
-                          </div>
-                          <div>
-                            <div className="font-semibold text-gray-900">Schedule for Later</div>
-                            <div className="text-sm text-gray-600 mt-1">
-                              Choose your preferred date and time
-                            </div>
-                          </div>
-                        </div>
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Scheduled Pickup Details */}
-                  {formData.pickupType === 'scheduled' && (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div>
-                        <label className="label">Preferred Date *</label>
-                        <input
-                          type="date"
-                          value={formData.preferredDate}
-                          onChange={(e) => setFormData(prev => ({ ...prev, preferredDate: e.target.value }))}
-                          className="input"
-                          min={getTomorrowDate()}
-                          required={formData.pickupType === 'scheduled'}
-                        />
-                        <div className="text-sm text-gray-500 mt-1">Pickup available from tomorrow onwards</div>
-                      </div>
-                      
-                      <div>
-                        <label className="label">Preferred Time Slot *</label>
-                        <select
-                          value={formData.timeSlot}
-                          onChange={(e) => setFormData(prev => ({ ...prev, timeSlot: e.target.value }))}
-                          className="input"
-                          required={formData.pickupType === 'scheduled'}
-                        >
-                          <option value="">Select Time Slot</option>
-                          {timeSlots.map(slot => (
-                            <option key={slot} value={slot}>{slot}</option>
-                          ))}
-                        </select>
-                        <div className="text-sm text-gray-500 mt-1">2-hour window for executive visit</div>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Immediate Pickup Info */}
-                  {formData.pickupType === 'immediate' && (
-                    <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                      <div className="flex items-start gap-3">
-                        <Clock className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
-                        <div className="text-sm text-blue-800">
-                          <div className="font-semibold mb-1">Next Available Slot</div>
-                          Our team will contact you within 30 minutes to confirm the earliest available pickup time based on your location.
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                  
-                  {/* Special Instructions */}
-                  <div>
-                    <label className="label">Special Instructions (Optional)</label>
-                    <textarea
-                      value={formData.specialInstructions}
-                      onChange={(e) => setFormData(prev => ({ ...prev, specialInstructions: e.target.value }))}
-                      className="input h-20 resize-none"
-                      placeholder="Any specific instructions for our pickup executive (gate code, floor, contact person, etc.)"
-                    />
-                  </div>
-
-                  {/* Process Summary */}
-                  <div className="bg-gray-50 rounded-lg p-6">
-                    <h3 className="font-semibold text-gray-900 mb-4">Pickup Process Summary</h3>
-                    <div className="space-y-3">
-                      <div className="flex justify-between">
-                        <span className="text-gray-600">Items for Evaluation</span>
-                        <span className="font-medium">{formData.items.length} items</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-gray-600">Pickup Service</span>
-                        <span className="font-medium text-green-600">FREE</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-gray-600">Price Evaluation</span>
-                        <span className="font-medium text-blue-600">On-site by Executive</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-gray-600">Payment</span>
-                        <span className="font-medium text-emerald-600">Instant after Evaluation</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="flex justify-between">
-                    <button
-                      type="button"
-                      onClick={() => setCurrentStep(2)}
-                      className="btn btn-ghost px-6 py-3 flex items-center gap-2"
-                    >
-                      <ArrowLeft className="w-4 h-4" />
-                      Back to Location
-                    </button>
-                    <button
-                      type="submit"
-                      className="btn btn-primary px-8 py-3 flex items-center gap-2"
-                    >
-                      <ArrowRight className="w-5 h-5" />
-                      Confirm Free Pickup
-                    </button>
-                  </div>
-                </div>
-              )}
-            </form>
           )}
-        </div>
 
-        {/* Support Info */}
-        <div className="text-center mt-8 text-sm text-gray-500">
-          <div className="flex items-center justify-center gap-4 flex-wrap">
-            <span>Need help?</span>
-            <a href="tel:+1800-ECOLOOP" className="inline-flex items-center gap-1 text-emerald-600 hover:text-emerald-700">
-              <Phone className="w-4 h-4" />
-              1800-ECOLOOP
-            </a>
-            <span>or</span>
-            <a href="mailto:support@ecoloop.com" className="inline-flex items-center gap-1 text-emerald-600 hover:text-emerald-700">
-              <Phone className="w-4 h-4" />
-              email support
-            </a>
-          </div>
+          {/* Step 3: Schedule */}
+          {currentStep === 3 && (
+            <div className="space-y-6">
+              <h2 className="text-2xl font-bold text-gray-900">Step 3: When should we pick up?</h2>
+              
+              {/* Pickup Type */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-3">Pickup Type</label>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <button
+                    type="button"
+                    onClick={() => setFormData(prev => ({ ...prev, pickupType: 'immediate' }))}
+                    className={`p-6 rounded-xl border-2 text-left transition-all ${
+                      formData.pickupType === 'immediate'
+                        ? 'border-emerald-500 bg-emerald-50'
+                        : 'border-gray-200 hover:border-emerald-300'
+                    }`}
+                  >
+                    <CheckCircle className={`w-8 h-8 mb-2 ${
+                      formData.pickupType === 'immediate' ? 'text-emerald-600' : 'text-gray-400'
+                    }`} />
+                    <h3 className="font-bold text-gray-900 mb-1">Immediate Pickup</h3>
+                    <p className="text-sm text-gray-600">We'll pickup within 24-48 hours</p>
+                  </button>
+                  
+                  <button
+                    type="button"
+                    onClick={() => setFormData(prev => ({ ...prev, pickupType: 'scheduled' }))}
+                    className={`p-6 rounded-xl border-2 text-left transition-all ${
+                      formData.pickupType === 'scheduled'
+                        ? 'border-emerald-500 bg-emerald-50'
+                        : 'border-gray-200 hover:border-emerald-300'
+                    }`}
+                  >
+                    <Calendar className={`w-8 h-8 mb-2 ${
+                      formData.pickupType === 'scheduled' ? 'text-emerald-600' : 'text-gray-400'
+                    }`} />
+                    <h3 className="font-bold text-gray-900 mb-1">Schedule Pickup</h3>
+                    <p className="text-sm text-gray-600">Choose your preferred date and time</p>
+                  </button>
+                </div>
+              </div>
+
+              {/* Scheduled Date & Time */}
+              {formData.pickupType === 'scheduled' && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">Preferred Date *</label>
+                    <input
+                      type="date"
+                      value={formData.scheduledDate}
+                      onChange={(e) => setFormData(prev => ({ ...prev, scheduledDate: e.target.value }))}
+                      min={new Date().toISOString().split('T')[0]}
+                      className={`w-full px-4 py-3 border ${errors.scheduledDate ? 'border-red-300' : 'border-gray-300'} rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent`}
+                    />
+                    {errors.scheduledDate && <p className="text-sm text-red-600 mt-1">{errors.scheduledDate}</p>}
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">Time Slot *</label>
+                    <select
+                      value={formData.scheduledTime}
+                      onChange={(e) => setFormData(prev => ({ ...prev, scheduledTime: e.target.value }))}
+                      className={`w-full px-4 py-3 border ${errors.scheduledTime ? 'border-red-300' : 'border-gray-300'} rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent`}
+                    >
+                      <option value="">Select time slot</option>
+                      {timeSlots.map((slot) => (
+                        <option key={slot} value={slot}>{slot}</option>
+                      ))}
+                    </select>
+                    {errors.scheduledTime && <p className="text-sm text-red-600 mt-1">{errors.scheduledTime}</p>}
+                  </div>
+                </div>
+              )}
+
+              {/* Summary */}
+              <div className="bg-gray-50 rounded-xl p-6">
+                <h3 className="font-bold text-gray-900 mb-4">Booking Summary</h3>
+                <div className="space-y-2 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Category:</span>
+                    <span className="font-medium text-gray-900">{formData.category}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Items:</span>
+                    <span className="font-medium text-gray-900">{formData.items.length} item(s)</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Location:</span>
+                    <span className="font-medium text-gray-900">{formData.city}, {formData.state}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Pickup Type:</span>
+                    <span className="font-medium text-emerald-600 capitalize">{formData.pickupType}</span>
+                  </div>
+                  <div className="flex justify-between pt-2 border-t">
+                    <span className="text-gray-600">Service Charge:</span>
+                    <span className="font-bold text-green-600">FREE</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Success Step */}
+          {currentStep === 4 && (
+            <div className="text-center py-8">
+              <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <CheckCircle className="w-12 h-12 text-green-600" />
+              </div>
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">Pickup Scheduled Successfully!</h2>
+              <p className="text-gray-600 mb-6">Your tracking number is:</p>
+              <div className="bg-emerald-50 border-2 border-emerald-200 rounded-xl p-4 inline-block mb-8">
+                <p className="text-2xl font-bold text-emerald-600">{trackingNumber}</p>
+              </div>
+              <div className="space-y-4">
+                <button
+                  onClick={() => navigate('/dashboard')}
+                  className="w-full px-6 py-3 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white rounded-xl font-bold transition-all"
+                >
+                  View My Pickups
+                </button>
+                <button
+                  onClick={() => navigate('/')}
+                  className="w-full px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl font-bold transition-all"
+                >
+                  Back to Home
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Navigation Buttons */}
+          {currentStep < 4 && (
+            <div className="flex justify-between mt-8 pt-6 border-t">
+              {currentStep > 1 && (
+                <button
+                  type="button"
+                  onClick={handleBack}
+                  className="px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl font-bold flex items-center gap-2 transition-all"
+                >
+                  <ArrowLeft className="w-5 h-5" />
+                  Back
+                </button>
+              )}
+              
+              {currentStep < 3 ? (
+                <button
+                  type="button"
+                  onClick={handleNext}
+                  className="ml-auto px-6 py-3 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white rounded-xl font-bold flex items-center gap-2 transition-all"
+                >
+                  Continue
+                  <ArrowRight className="w-5 h-5" />
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={handleSubmit}
+                  disabled={isSubmitting}
+                  className="ml-auto px-6 py-3 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white rounded-xl font-bold flex items-center gap-2 transition-all disabled:opacity-50"
+                >
+                  {isSubmitting ? (
+                    <>
+                      <Loader className="w-5 h-5 animate-spin" />
+                      Submitting...
+                    </>
+                  ) : (
+                    <>
+                      <CheckCircle className="w-5 h-5" />
+                      Complete Booking
+                    </>
+                  )}
+                </button>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>

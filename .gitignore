@@ -5,3 +5,12 @@
 /frontend/node_modules
 /.vscode
 /frontend/logo.svg
+/backend/.env
+/BACKEND_INTEGRATION_COMPLETE.md
+/QUICK_START.md
+/WORKER_ADMIN_RECOMMENDATIONS.md
+/frontend/.env
+/ADMIN_WORKER_DASHBOARDS_COMPLETE.md
+/TESTING_GUIDE.md
+/ADMIN_WORKER_APPROVAL_SYSTEM.md
+/QUICK_START_ADMIN.md

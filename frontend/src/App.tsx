@@ -1,36 +1,152 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider, useAuth } from './context/AuthContext';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import HomePage from './components/homepage/HomePage';
 import NavigationBar from './components/layout/Navbar';
 import Footer from './components/footer/Footer';
 import SchedulePickup from './pages/SchedulePickup';
 import HowItWorks from './pages/HowItWorks';
 import About from './pages/About';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import Dashboard from './pages/Dashboard';
+import AdminDashboard from './pages/admin/AdminDashboard';
+import AdminLogin from './pages/admin/AdminLogin';
+import WorkerApproval from './pages/admin/WorkerApproval';
+import WorkerDashboard from './pages/WorkerDashboard';
 
-function App() {
-  const [isLoggedIn, setIsLoggedIn] = React.useState(true);
-  const userName = "EcoUser";
-  const handleLogout = () => {
-    console.log("Logging out...");
-    setIsLoggedIn(false);
-  };
+// Protected Route Component
+const ProtectedRoute: React.FC<{ children: React.ReactElement; allowedRoles?: string[] }> = ({ 
+  children, 
+  allowedRoles 
+}) => {
+  const { isAuthenticated, isLoading, user } = useAuth();
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="w-16 h-16 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+
+  // Check role-based access
+  if (allowedRoles && user?.role && !allowedRoles.includes(user.role)) {
+    return (
+      <div className="flex items-center justify-center min-h-screen p-4">
+        <div className="bg-white rounded-2xl shadow-xl p-8 max-w-md w-full text-center">
+          <h2 className="text-2xl font-bold text-gray-800 mb-2">Access Denied</h2>
+          <p className="text-gray-600 mb-6">You don't have permission to access this page.</p>
+          <Navigate to="/dashboard" replace />
+        </div>
+      </div>
+    );
+  }
+
+  return children;
+};
+
+// Main App Content (needs to be inside AuthProvider)
+const AppContent: React.FC = () => {
+  const { isAuthenticated, user, logout } = useAuth();
 
   return (
     <div className="flex flex-col min-h-screen">
-      <NavigationBar isLoggedIn={isLoggedIn} userName={userName} onLogout={handleLogout} />
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={true}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+      <NavigationBar 
+        isLoggedIn={isAuthenticated} 
+        userName={user?.name} 
+        userRole={user?.role}
+        onLogout={logout} 
+      />
 
       <main className="flex-grow">
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/schedule-pickup" element={<SchedulePickup />} />
           <Route path="/how-it-works" element={<HowItWorks />} />
           <Route path="/about" element={<About />} />
-          <Route path="*" element={<div className="p-8 text-center"><h1>404 - Page Not Found</h1><p>Sorry, the page you are looking for does not exist.</p></div>} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Register />} />
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route 
+            path="/schedule-pickup" 
+            element={
+              <ProtectedRoute>
+                <SchedulePickup />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/dashboard" 
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/admin/dashboard" 
+            element={
+              <ProtectedRoute allowedRoles={['admin']}>
+                <AdminDashboard />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/admin/approvals" 
+            element={
+              <ProtectedRoute allowedRoles={['admin']}>
+                <WorkerApproval />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/worker/dashboard" 
+            element={
+              <ProtectedRoute allowedRoles={['worker']}>
+                <WorkerDashboard />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="*" 
+            element={
+              <div className="p-8 text-center">
+                <h1 className="text-3xl font-bold text-gray-900 mb-4">404 - Page Not Found</h1>
+                <p className="text-gray-600">Sorry, the page you are looking for does not exist.</p>
+              </div>
+            } 
+          />
         </Routes>
       </main>
 
       <Footer />
     </div>
+  );
+};
+
+function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
   );
 }
 

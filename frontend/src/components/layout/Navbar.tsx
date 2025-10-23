@@ -3,18 +3,43 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, X, User, LogOut, LayoutDashboard, Sparkles, Recycle, Info } from 'lucide-react'; 
+import { workerAPI } from '../../services/api';
 
 // Define the props for the component for type safety
 interface NavigationBarProps {
   isLoggedIn: boolean;
   userName?: string;
+  userRole?: string;
   onLogout: () => void;
 }
 
-const Navbar: React.FC<NavigationBarProps> = ({ isLoggedIn, userName, onLogout }) => {
+const Navbar: React.FC<NavigationBarProps> = ({ isLoggedIn, userName, userRole, onLogout }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [availableOrdersCount, setAvailableOrdersCount] = useState(0);
+
+  // Fetch available orders count for workers
+  useEffect(() => {
+    const fetchAvailableCount = async () => {
+      if (userRole === 'worker' && isLoggedIn) {
+        try {
+          const response = await workerAPI.getAvailablePickups();
+          setAvailableOrdersCount(response.count || 0);
+        } catch (error) {
+          console.error('Error fetching available orders:', error);
+        }
+      }
+    };
+
+    fetchAvailableCount();
+    
+    // Poll every 30 seconds for workers
+    if (userRole === 'worker' && isLoggedIn) {
+      const interval = setInterval(fetchAvailableCount, 30000);
+      return () => clearInterval(interval);
+    }
+  }, [userRole, isLoggedIn]);
 
   // Handle scroll effect
   useEffect(() => {
@@ -47,6 +72,28 @@ const Navbar: React.FC<NavigationBarProps> = ({ isLoggedIn, userName, onLogout }
       document.body.style.overflow = 'unset';
     };
   }, [isMobileMenuOpen, isUserMenuOpen]);
+
+  // Auto-close user menu after 5 seconds
+  useEffect(() => {
+    if (isUserMenuOpen) {
+      const timer = setTimeout(() => {
+        setIsUserMenuOpen(false);
+      }, 1500); // 5 seconds
+
+      return () => clearTimeout(timer);
+    }
+  }, [isUserMenuOpen]);
+
+  // Auto-close mobile menu after 10 seconds
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      const timer = setTimeout(() => {
+        setIsMobileMenuOpen(false);
+      }, 1500); // 10 seconds
+
+      return () => clearTimeout(timer);
+    }
+  }, [isMobileMenuOpen]);
 
   // Reusable link items for DRY code with icons
   const navLinks = [
@@ -116,6 +163,12 @@ const Navbar: React.FC<NavigationBarProps> = ({ isLoggedIn, userName, onLogout }
                     aria-haspopup="true"
                   >
                     <span className="sr-only">Open user menu</span>
+                    {/* Available Orders Badge for Workers */}
+                    {userRole === 'worker' && availableOrdersCount > 0 && (
+                      <div className="absolute -top-2 -right-2 bg-gradient-to-r from-orange-500 to-red-500 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center shadow-lg animate-pulse">
+                        {availableOrdersCount}
+                      </div>
+                    )}
                     <div className="h-10 w-10 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 flex items-center justify-center text-white font-bold shadow-lg shadow-emerald-500/30 group-hover:shadow-emerald-500/50 transition-all duration-300">
                       {userName ? userName.charAt(0).toUpperCase() : <User size={20} strokeWidth={2.5} />}
                     </div>
@@ -137,13 +190,39 @@ const Navbar: React.FC<NavigationBarProps> = ({ isLoggedIn, userName, onLogout }
                     <div className="px-4 py-3 border-b border-gray-100">
                       <p className="text-xs text-gray-500 font-medium uppercase tracking-wider mb-1">Account</p>
                       <p className="text-sm font-bold text-gray-800">{userName || 'User'}</p>
+                      {userRole && userRole !== 'user' && (
+                        <p className="text-xs text-emerald-600 font-semibold capitalize">{userRole}</p>
+                      )}
                     </div>
-                    <Link to="/dashboard" className="group flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-emerald-50 hover:to-teal-50 transition-all duration-200" role="menuitem">
-                      <div className="p-2 rounded-lg bg-emerald-100 group-hover:bg-emerald-200 transition-colors mr-3">
-                        <LayoutDashboard size={16} className="text-emerald-600" strokeWidth={2.5} />
-                      </div>
-                      <span className="font-semibold">Dashboard</span>
-                    </Link>
+                    {userRole === 'admin' && (
+                      <Link to="/admin/dashboard" className="group flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-purple-50 hover:to-indigo-50 transition-all duration-200" role="menuitem">
+                        <div className="p-2 rounded-lg bg-purple-100 group-hover:bg-purple-200 transition-colors mr-3">
+                          <LayoutDashboard size={16} className="text-purple-600" strokeWidth={2.5} />
+                        </div>
+                        <span className="font-semibold">Admin Dashboard</span>
+                      </Link>
+                    )}
+                    {userRole === 'worker' && (
+                      <Link to="/worker/dashboard" className="group flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-orange-50 hover:to-amber-50 transition-all duration-200 relative" role="menuitem">
+                        <div className="p-2 rounded-lg bg-orange-100 group-hover:bg-orange-200 transition-colors mr-3">
+                          <LayoutDashboard size={16} className="text-orange-600" strokeWidth={2.5} />
+                        </div>
+                        <span className="font-semibold">Worker Dashboard</span>
+                        {availableOrdersCount > 0 && (
+                          <span className="ml-auto bg-orange-500 text-white text-xs font-bold rounded-full px-2 py-1">
+                            {availableOrdersCount} new
+                          </span>
+                        )}
+                      </Link>
+                    )}
+                    {userRole === 'user' && (
+                      <Link to="/dashboard" className="group flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-emerald-50 hover:to-teal-50 transition-all duration-200" role="menuitem">
+                        <div className="p-2 rounded-lg bg-emerald-100 group-hover:bg-emerald-200 transition-colors mr-3">
+                          <LayoutDashboard size={16} className="text-emerald-600" strokeWidth={2.5} />
+                        </div>
+                        <span className="font-semibold">Dashboard</span>
+                      </Link>
+                    )}
                     <button
                       onClick={onLogout}
                       className="group w-full text-left flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-red-50 hover:to-rose-50 transition-all duration-200"
@@ -162,6 +241,7 @@ const Navbar: React.FC<NavigationBarProps> = ({ isLoggedIn, userName, onLogout }
                 <Link to="/login" className="text-gray-700 hover:text-emerald-600 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 hover:bg-emerald-50/80">
                   Log In
                 </Link>
+                
                 <Link to="/signup" className="relative group bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white px-6 py-2.5 rounded-xl text-sm font-bold shadow-lg shadow-emerald-500/30 hover:shadow-emerald-500/50 transition-all duration-300 transform hover:scale-105 overflow-hidden">
                   <div className="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
                   <span className="relative flex items-center gap-2">
@@ -224,18 +304,47 @@ const Navbar: React.FC<NavigationBarProps> = ({ isLoggedIn, userName, onLogout }
                       <div>
                         <p className="text-xs text-gray-500 font-medium">Welcome back</p>
                         <p className="text-sm font-bold text-gray-800">{userName || 'User'}</p>
+                        {userRole && userRole !== 'user' && (
+                          <p className="text-xs text-emerald-600 font-semibold capitalize">{userRole}</p>
+                        )}
                       </div>
                     </div>
-                    <Link 
-                      to="/dashboard" 
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className="group flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm font-semibold text-gray-700 hover:text-emerald-600 hover:bg-gradient-to-r from-emerald-50 to-teal-50 transition-all duration-300"
-                    >
-                        <div className="p-1.5 rounded-lg bg-emerald-100 group-hover:bg-emerald-200 transition-colors">
-                          <LayoutDashboard size={18} className="text-emerald-600" strokeWidth={2.5} />
-                        </div>
-                        Dashboard
-                    </Link>
+                    {userRole === 'admin' && (
+                      <Link 
+                        to="/admin/dashboard" 
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="group flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm font-semibold text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r from-purple-50 to-indigo-50 transition-all duration-300"
+                      >
+                          <div className="p-1.5 rounded-lg bg-purple-100 group-hover:bg-purple-200 transition-colors">
+                            <LayoutDashboard size={18} className="text-purple-600" strokeWidth={2.5} />
+                          </div>
+                          Admin Dashboard
+                      </Link>
+                    )}
+                    {userRole === 'worker' && (
+                      <Link 
+                        to="/worker/dashboard" 
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="group flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm font-semibold text-gray-700 hover:text-orange-600 hover:bg-gradient-to-r from-orange-50 to-amber-50 transition-all duration-300"
+                      >
+                          <div className="p-1.5 rounded-lg bg-orange-100 group-hover:bg-orange-200 transition-colors">
+                            <LayoutDashboard size={18} className="text-orange-600" strokeWidth={2.5} />
+                          </div>
+                          Worker Dashboard
+                      </Link>
+                    )}
+                    {userRole === 'user' && (
+                      <Link 
+                        to="/dashboard" 
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="group flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm font-semibold text-gray-700 hover:text-emerald-600 hover:bg-gradient-to-r from-emerald-50 to-teal-50 transition-all duration-300"
+                      >
+                          <div className="p-1.5 rounded-lg bg-emerald-100 group-hover:bg-emerald-200 transition-colors">
+                            <LayoutDashboard size={18} className="text-emerald-600" strokeWidth={2.5} />
+                          </div>
+                          Dashboard
+                      </Link>
+                    )}
                     <button 
                       onClick={() => {
                         onLogout();
