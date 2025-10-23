@@ -1,24 +1,26 @@
 const mongoose = require('mongoose');
 
-let isConnected = false;
-
 const connectDB = async () => {
-  if (isConnected) {
+  // Check if already connected
+  if (mongoose.connection.readyState >= 1) {
     console.log('Using existing MongoDB connection');
     return;
   }
 
   try {
+    // Mongoose automatically handles connection pooling
     const conn = await mongoose.connect(process.env.MONGODB_URI, {
-      serverSelectionTimeoutMS: 5000,
+      serverSelectionTimeoutMS: 10000, // Increased to 10 seconds
       socketTimeoutMS: 45000,
+      maxPoolSize: 10, // Maximum number of connections in the pool
+      minPoolSize: 2,  // Minimum number of connections
     });
 
-    isConnected = conn.connections[0].readyState === 1;
     console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
+    console.log(`📊 Database: ${conn.connection.name}`);
   } catch (error) {
     console.error(`❌ MongoDB Connection Error: ${error.message}`);
-    isConnected = false;
+    console.error('Full error:', error);
     throw error; // Don't exit process in serverless
   }
 };

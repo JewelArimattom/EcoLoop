@@ -37,15 +37,12 @@ const limiter = rateLimit({
 app.use('/api/', limiter);
 
 // Connect to MongoDB (async for serverless)
-let dbConnected = false;
 const initDB = async () => {
-  if (!dbConnected) {
-    try {
-      await connectDB();
-      dbConnected = true;
-    } catch (error) {
-      console.error('Failed to connect to MongoDB:', error);
-    }
+  try {
+    await connectDB();
+  } catch (error) {
+    console.error('Failed to connect to MongoDB:', error);
+    throw error;
   }
 };
 
@@ -58,7 +55,8 @@ app.use(async (req, res, next) => {
     console.error('Database initialization error:', error);
     res.status(500).json({
       success: false,
-      message: 'Database connection failed'
+      message: 'Database connection failed',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined
     });
   }
 });
@@ -89,11 +87,13 @@ app.get('/', (req, res) => {
 
 // Health check route
 app.get('/api/health', (req, res) => {
+  const mongoose = require('mongoose');
   res.status(200).json({ 
     status: 'OK', 
     message: 'EcoLoop API is running',
     timestamp: new Date().toISOString(),
-    database: dbConnected ? 'connected' : 'disconnected'
+    database: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected',
+    dbState: mongoose.connection.readyState
   });
 });
 
@@ -122,7 +122,6 @@ const PORT = process.env.PORT || 5000;
 if (process.env.VERCEL !== '1') {
   // Connect to DB immediately in local development
   connectDB().then(() => {
-    dbConnected = true;
     app.listen(PORT, () => {
       console.log(`🚀 Server running on port ${PORT} in ${process.env.NODE_ENV || 'development'} mode`);
     });
