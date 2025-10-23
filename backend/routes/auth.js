@@ -169,25 +169,33 @@ router.post('/login', [
   try {
     const { email, password } = req.body;
 
+    console.log('Login attempt for email:', email);
+
     // Check if user exists (include password for comparison)
     const user = await User.findOne({ email }).select('+password');
     
     if (!user) {
+      console.log('User not found:', email);
       return res.status(401).json({
         success: false,
         message: 'Invalid credentials'
       });
     }
 
+    console.log('User found:', user.email, 'Role:', user.role);
+
     // Check if password matches
     const isMatch = await user.matchPassword(password);
     
     if (!isMatch) {
+      console.log('Password mismatch for:', email);
       return res.status(401).json({
         success: false,
         message: 'Invalid credentials'
       });
     }
+
+    console.log('Login successful for:', email);
 
     // Generate token
     const token = generateToken(user._id);
@@ -206,6 +214,7 @@ router.post('/login', [
     });
   } catch (error) {
     console.error('Login error:', error);
+    console.error('Error stack:', error.stack);
     res.status(500).json({
       success: false,
       message: 'Server error during login',
