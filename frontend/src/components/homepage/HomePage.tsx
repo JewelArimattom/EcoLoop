@@ -173,7 +173,7 @@ const HomePage: React.FC = () => {
               </div>
 
               <Link
-                to="/register?role=worker"
+                to="/signup?role=worker"
                 className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-bold text-base md:text-lg px-6 md:px-8 py-4 md:py-5 rounded-xl shadow-lg transition-all w-full sm:w-auto justify-center touch-manipulation"
               >
                 <Users className="w-5 h-5" />

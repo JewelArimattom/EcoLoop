@@ -104,27 +104,27 @@ const Navbar: React.FC<NavigationBarProps> = ({ isLoggedIn, userName, userRole, 
   return (
     <nav className={`sticky top-0 z-50 transition-all duration-300 ${
       isScrolled 
-        ? 'bg-white/80 backdrop-blur-xl shadow-lg shadow-emerald-500/5' 
-        : 'bg-white shadow-md'
+        ? 'bg-white/95 backdrop-blur-xl shadow-lg border-b border-green-100' 
+        : 'bg-white/90 backdrop-blur-sm shadow-md border-b border-gray-100'
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           
-          {/* Logo - Premium Design */}
+          {/* Logo - Matching Hero Design */}
           <div className="flex-shrink-0">
             <Link to="/" className="flex items-center gap-3 group">
               <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-xl blur-md group-hover:blur-lg transition-all duration-300 opacity-50"></div>
-                <div className="relative bg-gradient-to-r from-emerald-500 to-teal-600 p-2.5 rounded-xl">
+                <div className="absolute inset-0 bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500 rounded-xl blur-md group-hover:blur-lg transition-all duration-300 opacity-40"></div>
+                <div className="relative bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 p-2.5 rounded-xl shadow-lg">
                   <Recycle className="w-6 h-6 text-white" strokeWidth={2.5} />
                 </div>
               </div>
               <div className="flex flex-col">
-                <span className="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent tracking-tight">
+                <span className="text-2xl font-black bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 bg-clip-text text-transparent tracking-tight">
                   EcoLoop
                 </span>
-                <span className="text-[10px] text-gray-500 font-medium tracking-wider uppercase -mt-1">
-                  Premium Recycling
+                <span className="text-[10px] text-gray-600 font-bold tracking-wider uppercase -mt-1">
+                  Kerala's #1 Platform
                 </span>
               </div>
             </Link>
