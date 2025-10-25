@@ -1,19 +1,44 @@
-<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect width="32" height="32" rx="6" fill="url(#grad)"/>
-  <defs>
-    <linearGradient id="grad" x1="0" y1="0" x2="32" y2="32">
-      <stop offset="0%" stop-color="#10b981"/>
-      <stop offset="100%" stop-color="#06b6d4"/>
-    </linearGradient>
-  </defs>
-  <g transform="translate(16, 16)">
-    <!-- Simple Recycling Symbol -->
-    <path d="M 0,-7 L 2,-5 L 1,-5 L 1,-2 L -1,-2 L -1,-5 L -2,-5 Z" fill="white"/>
-    <g transform="rotate(120)">
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+  <defs>  <rect width="32" height="32" rx="6" fill="url(#grad)"/>
+
+    <linearGradient id="faviconGradient" x1="0%" y1="0%" x2="100%" y2="100%">  <defs>
+
+      <stop offset="0%" style="stop-color:#10b981;stop-opacity:1" />    <linearGradient id="grad" x1="0" y1="0" x2="32" y2="32">
+
+      <stop offset="100%" style="stop-color:#059669;stop-opacity:1" />      <stop offset="0%" stop-color="#10b981"/>
+
+    </linearGradient>      <stop offset="100%" stop-color="#06b6d4"/>
+
+  </defs>    </linearGradient>
+
+    </defs>
+
+  <!-- Background -->  <g transform="translate(16, 16)">
+
+  <rect width="64" height="64" rx="12" fill="url(#faviconGradient)"/>    <!-- Simple Recycling Symbol -->
+
       <path d="M 0,-7 L 2,-5 L 1,-5 L 1,-2 L -1,-2 L -1,-5 L -2,-5 Z" fill="white"/>
-    </g>
-    <g transform="rotate(240)">
-      <path d="M 0,-7 L 2,-5 L 1,-5 L 1,-2 L -1,-2 L -1,-5 L -2,-5 Z" fill="white"/>
-    </g>
+
+  <!-- Simplified Recycling Symbol -->    <g transform="rotate(120)">
+
+  <g transform="translate(32, 32)">      <path d="M 0,-7 L 2,-5 L 1,-5 L 1,-2 L -1,-2 L -1,-5 L -2,-5 Z" fill="white"/>
+
+    <!-- Arrow 1 -->    </g>
+
+    <path d="M 0,-18 L 6,-8 L 3,-8 L 3,-5 L -3,-5 L -3,-8 L -6,-8 Z" fill="#ffffff" opacity="0.95" transform="rotate(0)"/>    <g transform="rotate(240)">
+
+    <!-- Arrow 2 -->      <path d="M 0,-7 L 2,-5 L 1,-5 L 1,-2 L -1,-2 L -1,-5 L -2,-5 Z" fill="white"/>
+
+    <path d="M 0,-18 L 6,-8 L 3,-8 L 3,-5 L -3,-5 L -3,-8 L -6,-8 Z" fill="#ffffff" opacity="0.95" transform="rotate(120)"/>    </g>
+
+    <!-- Arrow 3 -->  </g>
+
+    <path d="M 0,-18 L 6,-8 L 3,-8 L 3,-5 L -3,-5 L -3,-8 L -6,-8 Z" fill="#ffffff" opacity="0.95" transform="rotate(240)"/></svg>
+
+    
+    <!-- Center Circle -->
+    <circle cx="0" cy="0" r="7" fill="#ffffff"/>
+    <circle cx="0" cy="0" r="5" fill="#34d399"/>
   </g>
 </svg>

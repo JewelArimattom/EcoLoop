@@ -1,44 +1,88 @@
-<svg width="192" height="192" viewBox="0 0 192 192" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <!-- Background with rounded corners -->
-  <rect width="192" height="192" rx="42" fill="url(#gradient)"/>
-  
-  <defs>
-    <linearGradient id="gradient" x1="0" y1="0" x2="192" y2="192" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#10b981"/>
-      <stop offset="50%" stop-color="#14b8a6"/>
-      <stop offset="100%" stop-color="#06b6d4"/>
-    </linearGradient>
-  </defs>
-  
-  <!-- Recycling Symbol -->
-  <g transform="translate(96, 96)">
-    <!-- Circle backdrop -->
-    <circle cx="0" cy="0" r="52" fill="white" opacity="0.15"/>
+<svg width="192" height="192" viewBox="0 0 192 192" xmlns="http://www.w3.org/2000/svg"><svg width="192" height="192" viewBox="0 0 192 192" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+  <defs>  <!-- Background with rounded corners -->
+
+    <linearGradient id="logoGradient192" x1="0%" y1="0%" x2="100%" y2="100%">  <rect width="192" height="192" rx="42" fill="url(#gradient)"/>
+
+      <stop offset="0%" style="stop-color:#10b981;stop-opacity:1" />  
+
+      <stop offset="100%" style="stop-color:#059669;stop-opacity:1" />  <defs>
+
+    </linearGradient>    <linearGradient id="gradient" x1="0" y1="0" x2="192" y2="192" gradientUnits="userSpaceOnUse">
+
+    <linearGradient id="leafGradient192" x1="0%" y1="0%" x2="100%" y2="100%">      <stop offset="0%" stop-color="#10b981"/>
+
+      <stop offset="0%" style="stop-color:#34d399;stop-opacity:1" />      <stop offset="50%" stop-color="#14b8a6"/>
+
+      <stop offset="100%" style="stop-color:#10b981;stop-opacity:1" />      <stop offset="100%" stop-color="#06b6d4"/>
+
+    </linearGradient>    </linearGradient>
+
+  </defs>  </defs>
+
     
-    <!-- Recycling Arrows -->
-    <!-- Arrow 1 (Top) -->
-    <path d="M 0,-35 L 12,-23 L 6,-23 L 6,-12 L -6,-12 L -6,-23 L -12,-23 Z" fill="white"/>
-    <path d="M 0,-35 L -3,-29 L 3,-29 Z" fill="white"/>
-    
-    <!-- Arrow 2 (Bottom Right) -->
-    <g transform="rotate(120)">
-      <path d="M 0,-35 L 12,-23 L 6,-23 L 6,-12 L -6,-12 L -6,-23 L -12,-23 Z" fill="white"/>
-      <path d="M 0,-35 L -3,-29 L 3,-29 Z" fill="white"/>
-    </g>
-    
-    <!-- Arrow 3 (Bottom Left) -->
-    <g transform="rotate(240)">
-      <path d="M 0,-35 L 12,-23 L 6,-23 L 6,-12 L -6,-12 L -6,-23 L -12,-23 Z" fill="white"/>
-      <path d="M 0,-35 L -3,-29 L 3,-29 Z" fill="white"/>
-    </g>
-    
-    <!-- Center E -->
-    <text x="0" y="10" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="white" text-anchor="middle">E</text>
-  </g>
-  
-  <!-- Decorative dots -->
-  <circle cx="52" cy="52" r="4" fill="white" opacity="0.4"/>
-  <circle cx="140" cy="52" r="3" fill="white" opacity="0.3"/>
-  <circle cx="52" cy="140" r="3" fill="white" opacity="0.3"/>
-  <circle cx="140" cy="140" r="4" fill="white" opacity="0.4"/>
-</svg>
+
+  <!-- Background Circle -->  <!-- Recycling Symbol -->
+
+  <circle cx="96" cy="96" r="90" fill="url(#logoGradient192)"/>  <g transform="translate(96, 96)">
+
+      <!-- Circle backdrop -->
+
+  <!-- Recycling Arrows -->    <circle cx="0" cy="0" r="52" fill="white" opacity="0.15"/>
+
+  <g transform="translate(96, 96)">    
+
+    <!-- Arrow 1 -->    <!-- Recycling Arrows -->
+
+    <g transform="rotate(0)">    <!-- Arrow 1 (Top) -->
+
+      <path d="M 0,-45 L 15,-22 L 8,-22 L 8,-15 L -8,-15 L -8,-22 L -15,-22 Z" fill="#ffffff" opacity="0.95"/>    <path d="M 0,-35 L 12,-23 L 6,-23 L 6,-12 L -6,-12 L -6,-23 L -12,-23 Z" fill="white"/>
+
+      <circle cx="0" cy="-30" r="4.5" fill="#d1fae5"/>    <path d="M 0,-35 L -3,-29 L 3,-29 Z" fill="white"/>
+
+    </g>    
+
+    <!-- Arrow 2 -->    <!-- Arrow 2 (Bottom Right) -->
+
+    <g transform="rotate(120)">    <g transform="rotate(120)">
+
+      <path d="M 0,-45 L 15,-22 L 8,-22 L 8,-15 L -8,-15 L -8,-22 L -15,-22 Z" fill="#ffffff" opacity="0.95"/>      <path d="M 0,-35 L 12,-23 L 6,-23 L 6,-12 L -6,-12 L -6,-23 L -12,-23 Z" fill="white"/>
+
+      <circle cx="0" cy="-30" r="4.5" fill="#d1fae5"/>      <path d="M 0,-35 L -3,-29 L 3,-29 Z" fill="white"/>
+
+    </g>    </g>
+
+    <!-- Arrow 3 -->    
+
+    <g transform="rotate(240)">    <!-- Arrow 3 (Bottom Left) -->
+
+      <path d="M 0,-45 L 15,-22 L 8,-22 L 8,-15 L -8,-15 L -8,-22 L -15,-22 Z" fill="#ffffff" opacity="0.95"/>    <g transform="rotate(240)">
+
+      <circle cx="0" cy="-30" r="4.5" fill="#d1fae5"/>      <path d="M 0,-35 L 12,-23 L 6,-23 L 6,-12 L -6,-12 L -6,-23 L -12,-23 Z" fill="white"/>
+
+    </g>      <path d="M 0,-35 L -3,-29 L 3,-29 Z" fill="white"/>
+
+        </g>
+
+    <!-- Center -->    
+
+    <circle cx="0" cy="0" r="26" fill="#047857"/>    <!-- Center E -->
+
+    <circle cx="0" cy="0" r="22" fill="#ffffff"/>    <text x="0" y="10" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="white" text-anchor="middle">E</text>
+
+      </g>
+
+    <!-- Leaf -->  
+
+    <g transform="scale(0.45)">  <!-- Decorative dots -->
+
+      <path d="M 0,-35 Q -25,-20 -25,10 Q -25,25 -15,35 Q -5,40 0,35 Q 5,40 15,35 Q 25,25 25,10 Q 25,-20 0,-35 Z" fill="url(#leafGradient192)"/>  <circle cx="52" cy="52" r="4" fill="white" opacity="0.4"/>
+
+      <path d="M 0,-30 L 0,30" stroke="#047857" stroke-width="3" stroke-linecap="round"/>  <circle cx="140" cy="52" r="3" fill="white" opacity="0.3"/>
+
+    </g>  <circle cx="52" cy="140" r="3" fill="white" opacity="0.3"/>
+
+  </g>  <circle cx="140" cy="140" r="4" fill="white" opacity="0.4"/>
+
+</svg></svg>
+
