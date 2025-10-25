@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, X, User, LogOut, LayoutDashboard, Sparkles, Recycle, Info } from 'lucide-react'; 
+import { Menu, X, User, LogOut, LayoutDashboard, Sparkles, Recycle, Info, Phone } from 'lucide-react'; 
 import { workerAPI } from '../../services/api';
 
 // Define the props for the component for type safety
@@ -99,6 +99,7 @@ const Navbar: React.FC<NavigationBarProps> = ({ isLoggedIn, userName, userRole, 
   const navLinks = [
     { href: '/how-it-works', label: 'How It Works', icon: Recycle },
     { href: '/about', label: 'About Us', icon: Info },
+    { href: '/contact', label: 'Contact', icon: Phone },
   ];
 
   return (

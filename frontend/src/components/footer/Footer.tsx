@@ -3,8 +3,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { 
-  Facebook, Instagram, Linkedin, Twitter, Mail, Send, 
-  Recycle, Info, Phone, MapPin, Award
+  Mail, Recycle, Info, Phone, MapPin, Award
 } from 'lucide-react';
 
 const Footer: React.FC = () => {
@@ -43,34 +42,19 @@ const Footer: React.FC = () => {
             <Link to="/privacy-policy" className="text-gray-400 hover:text-emerald-400">Privacy</Link>
           </div>
 
-          {/* Social Icons - Compact */}
-          <div className="flex justify-center gap-3 mb-6">
-            {[
-              { Icon: Facebook, href: 'https://facebook.com/ecoloop' },
-              { Icon: Instagram, href: 'https://instagram.com/ecoloop' },
-              { Icon: Twitter, href: 'https://twitter.com/ecoloop' },
-            ].map((social, index) => (
-              <a 
-                key={index}
-                href={social.href} 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="p-2 bg-gray-700/50 hover:bg-emerald-600 border border-gray-600 hover:border-emerald-500 rounded-lg transition-all"
-              >
-                <social.Icon className="w-4 h-4 text-gray-300 hover:text-white" strokeWidth={2.5} />
-              </a>
-            ))}
-          </div>
-
           {/* Contact Info - Compact */}
           <div className="flex flex-col items-center gap-2 text-xs text-gray-400 mb-4">
             <div className="flex items-center gap-2">
               <Phone className="w-3 h-3 text-emerald-400" />
-              <span>+91 1800-ECOLOOP</span>
+              <a href="tel:+919061336064" className="hover:text-emerald-400">+91 90613 36064</a>
             </div>
             <div className="flex items-center gap-2">
               <Mail className="w-3 h-3 text-emerald-400" />
-              <span>support@ecoloop.in</span>
+              <a href="mailto:ecoloop.earth@gmail.com" className="hover:text-emerald-400">ecoloop.earth@gmail.com</a>
+            </div>
+            <div className="flex items-center gap-2">
+              <MapPin className="w-3 h-3 text-emerald-400" />
+              <span>Pala, Kottayam, Kerala</span>
             </div>
           </div>
 
@@ -172,50 +156,27 @@ const Footer: React.FC = () => {
                 Stay Connected
               </h3>
               <p className="text-sm mb-5 text-center md:text-left text-gray-400 font-medium">
-                Subscribe for updates & offers
+                Get in touch with us
               </p>
-              <div className="flex w-full max-w-sm mb-6">
-                <input
-                  type="email"
-                  placeholder="Your email"
-                  className="flex-1 px-4 py-3 rounded-l-xl border-2 border-gray-700 bg-gray-800/50 text-white text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 placeholder-gray-500"
-                />
-                <button className="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white px-5 rounded-r-xl text-sm font-bold transition-all">
-                  <Send className="w-5 h-5" strokeWidth={2.5} />
-                </button>
-              </div>
-              
-              {/* Social Icons */}
-              <div className="flex space-x-3 mb-6">
-                {[
-                  { Icon: Facebook, href: 'https://facebook.com/ecoloop' },
-                  { Icon: Twitter, href: 'https://twitter.com/ecoloop' },
-                  { Icon: Instagram, href: 'https://instagram.com/ecoloop' },
-                  { Icon: Linkedin, href: 'https://linkedin.com/company/ecoloop' }
-                ].map((social, index) => (
-                  <a 
-                    key={index}
-                    href={social.href} 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="p-3 bg-gray-700/50 hover:bg-emerald-600 border border-gray-600 hover:border-emerald-500 rounded-xl transition-all transform hover:scale-110"
-                  >
-                    <social.Icon className="w-5 h-5 text-gray-300 hover:text-white" strokeWidth={2.5} />
-                  </a>
-                ))}
-              </div>
               
               {/* Contact */}
-              <div className="space-y-2 text-sm">
+              <div className="space-y-3 text-sm mb-6">
                 <div className="flex items-center gap-2 text-gray-400">
                   <Phone className="w-4 h-4 text-emerald-400" strokeWidth={2.5} />
-                  <span>+91 1800-ECOLOOP</span>
+                  <a href="tel:+919061336064" className="hover:text-emerald-400">+91 90613 36064</a>
+                </div>
+                <div className="flex items-center gap-2 text-gray-400">
+                  <Mail className="w-4 h-4 text-emerald-400" strokeWidth={2.5} />
+                  <a href="mailto:ecoloop.earth@gmail.com" className="hover:text-emerald-400">ecoloop.earth@gmail.com</a>
                 </div>
                 <div className="flex items-center gap-2 text-gray-400">
                   <MapPin className="w-4 h-4 text-emerald-400" strokeWidth={2.5} />
-                  <span>Kerala, India</span>
+                  <span>Pala, Kottayam, Kerala</span>
                 </div>
               </div>
+              
+              {/* Social Media Placeholder - Coming Soon */}
+              <p className="text-xs text-gray-500 italic">Social media links coming soon...</p>
             </div>
 
           </div>
@@ -234,7 +195,7 @@ const Footer: React.FC = () => {
                 </span>
                 <span className="flex items-center gap-2">
                   <Mail className="w-4 h-4 text-cyan-400" strokeWidth={2.5} />
-                  support@ecoloop.in
+                  <a href="mailto:ecoloop.earth@gmail.com" className="hover:text-emerald-400">ecoloop.earth@gmail.com</a>
                 </span>
               </div>
               <div className="text-xs text-gray-500 font-medium">
