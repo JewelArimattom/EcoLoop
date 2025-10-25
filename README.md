@@ -82,9 +82,5 @@ npm run dev
 ## 📱 Contact
 
 - **Website**: [ecoloop.earth](https://ecoloop.earth)
-- **Email**: support@ecoloop.earth
 - **GitHub**: [github.com/JewelArimattom/EcoLoop](https://github.com/JewelArimattom/EcoLoop)
 
-## 📄 License
-
-MIT License - Built with ♻️ for a cleaner Kerala
