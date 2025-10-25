@@ -133,32 +133,40 @@ const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* For Scrap Collectors */}
-      <section className="py-16 md:py-24 bg-gradient-to-br from-green-50 to-emerald-50">
+      {/* For Scrap Collectors - Enhanced */}
+      <section className="py-12 md:py-20 bg-gradient-to-br from-green-50 to-emerald-50">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
             <div>
-              <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-6">
-                Empowering Local Recyclers
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-gray-900 mb-4 md:mb-6">
+                Empowering Local Waste Collectors
               </h2>
-              <p className="text-lg text-gray-700 mb-8 leading-relaxed">
-                EcoLoop helps small waste collectors find more customers, get fair prices, and track their daily pickups digitally.
-              </p>
+              
+              {/* Key Message */}
+              <div className="bg-white border-l-4 border-green-600 p-4 md:p-6 rounded-lg shadow-md mb-6 md:mb-8">
+                <p className="text-base md:text-lg text-gray-800 leading-relaxed">
+                  <strong className="text-green-600">Traditional scrap collectors</strong> often struggle to find customers and get fair prices. 
+                  EcoLoop changes that — <strong>giving them digital tools to grow their business, earn more, and work with dignity.</strong>
+                </p>
+              </div>
 
-              <div className="space-y-4 mb-8">
+              <div className="space-y-3 md:space-y-4 mb-6 md:mb-8">
                 {[
-                  { icon: MapPin, text: 'Find nearby waste pickups easily' },
-                  { icon: DollarSign, text: 'Better prices for recyclable materials' },
-                  { icon: CheckCircle, text: 'Track collections & payments' },
-                  { icon: Smartphone, text: 'Simple, mobile-based system' },
+                  { icon: MapPin, text: 'Find nearby waste pickups on your phone', detail: 'No more door-to-door searching' },
+                  { icon: DollarSign, text: 'Transparent pricing & fair rates', detail: 'Know the market value instantly' },
+                  { icon: CheckCircle, text: 'Digital record of all collections', detail: 'Track your earnings & work history' },
+                  { icon: Smartphone, text: 'Easy-to-use mobile platform', detail: 'Works on any smartphone' },
                 ].map((benefit, index) => {
                   const IconComponent = benefit.icon;
                   return (
-                    <div key={index} className="flex items-center gap-4">
-                      <div className="flex-shrink-0 w-12 h-12 bg-green-600 rounded-xl flex items-center justify-center">
-                        <IconComponent className="w-6 h-6 text-white" />
+                    <div key={index} className="flex items-start gap-3 md:gap-4 bg-white p-3 md:p-4 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                      <div className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 bg-green-600 rounded-xl flex items-center justify-center">
+                        <IconComponent className="w-5 h-5 md:w-6 md:h-6 text-white" />
                       </div>
-                      <span className="text-gray-800 font-semibold">{benefit.text}</span>
+                      <div className="flex-1 min-w-0">
+                        <span className="text-sm md:text-base text-gray-900 font-bold block">{benefit.text}</span>
+                        <span className="text-xs md:text-sm text-gray-600">{benefit.detail}</span>
+                      </div>
                     </div>
                   );
                 })}
@@ -166,7 +174,7 @@ const HomePage: React.FC = () => {
 
               <Link
                 to="/register?role=worker"
-                className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-bold text-lg px-8 py-4 rounded-xl shadow-lg transition-all"
+                className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-bold text-base md:text-lg px-6 md:px-8 py-4 md:py-5 rounded-xl shadow-lg transition-all w-full sm:w-auto justify-center touch-manipulation"
               >
                 <Users className="w-5 h-5" />
                 Register as Collector
