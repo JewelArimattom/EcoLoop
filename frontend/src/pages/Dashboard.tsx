@@ -203,55 +203,55 @@ const Dashboard: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
           <Link
             to="/schedule-pickup"
-            className="group bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white rounded-2xl p-6 shadow-lg transition-all transform hover:scale-105"
+            className="group bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white rounded-2xl p-5 sm:p-6 shadow-lg transition-all transform hover:scale-105"
           >
-            <div className="flex items-center gap-4">
-              <div className="p-3 bg-white/20 rounded-xl">
-                <Recycle className="w-8 h-8" />
+            <div className="flex items-center gap-3 sm:gap-4">
+              <div className="p-2.5 sm:p-3 bg-white/20 rounded-xl flex-shrink-0">
+                <Recycle className="w-6 h-6 sm:w-8 sm:h-8" />
               </div>
-              <div>
-                <h3 className="font-bold text-lg">Schedule New Pickup</h3>
-                <p className="text-sm text-emerald-50">Book your free e-waste collection</p>
+              <div className="min-w-0">
+                <h3 className="font-bold text-base sm:text-lg">Schedule New Pickup</h3>
+                <p className="text-xs sm:text-sm text-emerald-50">Book your free e-waste collection</p>
               </div>
             </div>
           </Link>
 
           <button
             onClick={fetchDashboardData}
-            className="group bg-white hover:bg-gray-50 rounded-2xl p-6 shadow-lg border border-gray-100 transition-all"
+            className="group bg-white hover:bg-gray-50 rounded-2xl p-5 sm:p-6 shadow-lg border border-gray-100 transition-all"
           >
-            <div className="flex items-center gap-4">
-              <div className="p-3 bg-blue-100 rounded-xl">
-                <TrendingUp className="w-8 h-8 text-blue-600" />
+            <div className="flex items-center gap-3 sm:gap-4">
+              <div className="p-2.5 sm:p-3 bg-blue-100 rounded-xl flex-shrink-0">
+                <TrendingUp className="w-6 h-6 sm:w-8 sm:h-8 text-blue-600" />
               </div>
-              <div className="text-left">
-                <h3 className="font-bold text-lg text-gray-900">Refresh Data</h3>
-                <p className="text-sm text-gray-600">Update your statistics</p>
+              <div className="text-left min-w-0">
+                <h3 className="font-bold text-base sm:text-lg text-gray-900">Refresh Data</h3>
+                <p className="text-xs sm:text-sm text-gray-600">Update your statistics</p>
               </div>
             </div>
           </button>
 
-          <div className="group bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
-            <div className="flex items-center gap-4">
-              <div className="p-3 bg-purple-100 rounded-xl">
-                <Award className="w-8 h-8 text-purple-600" />
+          <div className="group bg-white rounded-2xl p-5 sm:p-6 shadow-lg border border-gray-100">
+            <div className="flex items-center gap-3 sm:gap-4">
+              <div className="p-2.5 sm:p-3 bg-purple-100 rounded-xl flex-shrink-0">
+                <Award className="w-6 h-6 sm:w-8 sm:h-8 text-purple-600" />
               </div>
-              <div className="text-left">
-                <h3 className="font-bold text-lg text-gray-900">Eco Points</h3>
-                <p className="text-sm text-gray-600">Coming Soon!</p>
+              <div className="text-left min-w-0">
+                <h3 className="font-bold text-base sm:text-lg text-gray-900">Eco Points</h3>
+                <p className="text-xs sm:text-sm text-gray-600">Coming Soon!</p>
               </div>
             </div>
           </div>
         </div>
 
         {/* Pickups List */}
-        <div className="bg-white rounded-2xl shadow-xl p-6 border border-gray-100">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold text-gray-900">Your Pickups</h2>
-            <div className="flex gap-2">
+        <div className="bg-white rounded-2xl shadow-xl p-4 sm:p-6 border border-gray-100">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Your Pickups</h2>
+            <div className="flex flex-wrap gap-2">
               <button
                 onClick={() => setActiveTab('all')}
-                className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
+                className={`px-3 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all ${
                   activeTab === 'all'
                     ? 'bg-emerald-100 text-emerald-700'
                     : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
@@ -261,7 +261,7 @@ const Dashboard: React.FC = () => {
               </button>
               <button
                 onClick={() => setActiveTab('pending')}
-                className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
+                className={`px-3 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all ${
                   activeTab === 'pending'
                     ? 'bg-yellow-100 text-yellow-700'
                     : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
@@ -271,7 +271,7 @@ const Dashboard: React.FC = () => {
               </button>
               <button
                 onClick={() => setActiveTab('completed')}
-                className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
+                className={`px-3 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all ${
                   activeTab === 'completed'
                     ? 'bg-green-100 text-green-700'
                     : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
@@ -306,52 +306,50 @@ const Dashboard: React.FC = () => {
               {filteredPickups.map((pickup) => (
                 <div
                   key={pickup._id}
-                  className="border border-gray-200 rounded-xl p-6 hover:border-emerald-300 hover:shadow-md transition-all"
+                  className="border border-gray-200 rounded-xl p-4 sm:p-6 hover:border-emerald-300 hover:shadow-md transition-all"
                 >
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-3 mb-2">
-                        <h3 className="text-lg font-bold text-gray-900">{pickup.category}</h3>
-                        <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium border ${getStatusColor(pickup.status)}`}>
-                          {getStatusIcon(pickup.status)}
-                          {pickup.status.charAt(0).toUpperCase() + pickup.status.slice(1)}
-                        </span>
-                      </div>
-                      <p className="text-sm text-gray-600 font-medium mb-1">
-                        Tracking: <span className="text-emerald-600 font-mono">{pickup.trackingNumber}</span>
-                      </p>
-                      <p className="text-xs text-gray-500">
-                        Booked on {new Date(pickup.createdAt).toLocaleDateString('en-US', { 
-                          year: 'numeric', 
-                          month: 'long', 
-                          day: 'numeric' 
-                        })}
-                      </p>
+                  <div className="mb-4">
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-3">
+                      <h3 className="text-base sm:text-lg font-bold text-gray-900">{pickup.category}</h3>
+                      <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium border w-fit ${getStatusColor(pickup.status)}`}>
+                        {getStatusIcon(pickup.status)}
+                        {pickup.status.charAt(0).toUpperCase() + pickup.status.slice(1)}
+                      </span>
                     </div>
+                    <p className="text-xs sm:text-sm text-gray-600 font-medium mb-1">
+                      Tracking: <span className="text-emerald-600 font-mono break-all">{pickup.trackingNumber}</span>
+                    </p>
+                    <p className="text-xs text-gray-500">
+                      Booked on {new Date(pickup.createdAt).toLocaleDateString('en-US', { 
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: 'numeric' 
+                      })}
+                    </p>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 mb-4">
                     <div className="flex items-start gap-3">
-                      <Package className="w-5 h-5 text-gray-400 flex-shrink-0 mt-0.5" />
-                      <div>
+                      <Package className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400 flex-shrink-0 mt-0.5" />
+                      <div className="min-w-0">
                         <p className="text-xs text-gray-500 font-medium mb-1">Items</p>
-                        <p className="text-sm text-gray-900">{pickup.items.join(', ')}</p>
+                        <p className="text-xs sm:text-sm text-gray-900 break-words">{pickup.items.join(', ')}</p>
                       </div>
                     </div>
 
                     <div className="flex items-start gap-3">
-                      <MapPin className="w-5 h-5 text-gray-400 flex-shrink-0 mt-0.5" />
-                      <div>
+                      <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400 flex-shrink-0 mt-0.5" />
+                      <div className="min-w-0">
                         <p className="text-xs text-gray-500 font-medium mb-1">Location</p>
-                        <p className="text-sm text-gray-900">{pickup.address.city}, {pickup.address.state}</p>
+                        <p className="text-xs sm:text-sm text-gray-900 break-words">{pickup.address.city}, {pickup.address.state}</p>
                       </div>
                     </div>
 
                     <div className="flex items-start gap-3">
-                      <Calendar className="w-5 h-5 text-gray-400 flex-shrink-0 mt-0.5" />
-                      <div>
+                      <Calendar className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400 flex-shrink-0 mt-0.5" />
+                      <div className="min-w-0">
                         <p className="text-xs text-gray-500 font-medium mb-1">Pickup Type</p>
-                        <p className="text-sm text-gray-900 capitalize">
+                        <p className="text-xs sm:text-sm text-gray-900 capitalize break-words">
                           {pickup.pickupType === 'immediate' ? 'Within 24-48 hours' : 
                            `${new Date(pickup.scheduledDate!).toLocaleDateString()} - ${pickup.scheduledTime}`}
                         </p>
@@ -359,21 +357,23 @@ const Dashboard: React.FC = () => {
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-3 pt-4 border-t border-gray-100">
-                    <Phone className="w-4 h-4 text-gray-400" />
-                    <span className="text-sm text-gray-600">{pickup.contactInfo.phone}</span>
+                  <div className="flex flex-wrap items-center gap-2 sm:gap-3 pt-4 border-t border-gray-100">
+                    <div className="flex items-center gap-2">
+                      <Phone className="w-4 h-4 text-gray-400 flex-shrink-0" />
+                      <span className="text-xs sm:text-sm text-gray-600">{pickup.contactInfo.phone}</span>
+                    </div>
                     {pickup.contactInfo.email && (
                       <>
-                        <span className="text-gray-300">•</span>
-                        <span className="text-sm text-gray-600">{pickup.contactInfo.email}</span>
+                        <span className="text-gray-300 hidden sm:inline">•</span>
+                        <span className="text-xs sm:text-sm text-gray-600 truncate max-w-[200px]">{pickup.contactInfo.email}</span>
                       </>
                     )}
                     {pickup.price && pickup.price > 0 && (
                       <>
-                        <span className="text-gray-300">•</span>
-                        <div className="flex items-center gap-1 px-3 py-1 bg-green-50 rounded-full">
-                          <span className="text-lg font-bold text-green-700">₹{pickup.price}</span>
-                          <span className="text-sm text-green-600">deal</span>
+                        <span className="text-gray-300 hidden sm:inline">•</span>
+                        <div className="flex items-center gap-1 px-3 py-1.5 bg-green-50 rounded-full border border-green-200">
+                          <span className="text-base sm:text-lg font-bold text-green-700">₹{pickup.price}</span>
+                          <span className="text-xs sm:text-sm text-green-600 font-semibold">deal</span>
                         </div>
                       </>
                     )}
