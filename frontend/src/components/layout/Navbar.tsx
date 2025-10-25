@@ -124,7 +124,7 @@ const Navbar: React.FC<NavigationBarProps> = ({ isLoggedIn, userName, userRole, 
                   EcoLoop
                 </span>
                 <span className="text-[10px] text-gray-600 font-bold tracking-wider uppercase -mt-1">
-                  Kerala's #1 Platform
+                  Kerala's Platform
                 </span>
               </div>
             </Link>

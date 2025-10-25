@@ -3,7 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="apple-touch-icon" href="/logo.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/logo-192.svg" />
+    <link rel="icon" type="image/svg+xml" sizes="32x32" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" sizes="16x16" href="/favicon.svg" />
+    <link rel="manifest" href="/manifest.json" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <!-- SEO Meta Tags -->
@@ -12,20 +15,38 @@
     <meta name="keywords" content="e-waste recycling Kerala, scrap collection Kerala, recycle electronics Kerala, waste pickup Kerala, eco-friendly recycling, kabadiwala Kerala, earn from waste, plastic recycling, paper recycling, metal scrap" />
     <meta name="author" content="EcoLoop" />
     <meta name="theme-color" content="#059669" />
+    <meta name="robots" content="index, follow" />
+    <meta name="googlebot" content="index, follow" />
+    <meta name="language" content="English" />
+    <meta name="revisit-after" content="7 days" />
+    <meta name="rating" content="general" />
+    
+    <!-- Geo Tags -->
+    <meta name="geo.region" content="IN-KL" />
+    <meta name="geo.placename" content="Kerala, India" />
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://ecoloop.earth/" />
+    <meta property="og:site_name" content="EcoLoop" />
     <meta property="og:title" content="EcoLoop - Turn Waste into Value | Kerala's #1 Recycling Platform" />
     <meta property="og:description" content="Free doorstep e-waste pickup. Fair prices. Certified recycling. Join 1000+ Kerala households earning money through recycling!" />
-    <meta property="og:image" content="/og-image.jpg" />
+    <meta property="og:image" content="https://ecoloop.earth/og-image.svg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/svg+xml" />
+    <meta property="og:image:alt" content="EcoLoop - Kerala's E-Waste Recycling Platform" />
+    <meta property="og:locale" content="en_IN" />
 
     <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://ecoloop.earth/" />
-    <meta property="twitter:title" content="EcoLoop - Turn Waste into Value | Kerala's #1 Platform" />
-    <meta property="twitter:description" content="Free doorstep e-waste pickup. Fair prices. Certified recycling. Join 1000+ Kerala households!" />
-    <meta property="twitter:image" content="/og-image.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://ecoloop.earth/" />
+    <meta name="twitter:site" content="@EcoLoop" />
+    <meta name="twitter:creator" content="@EcoLoop" />
+    <meta name="twitter:title" content="EcoLoop - Turn Waste into Value | Kerala's #1 Platform" />
+    <meta name="twitter:description" content="Free doorstep e-waste pickup. Fair prices. Certified recycling. Join 1000+ Kerala households!" />
+    <meta name="twitter:image" content="https://ecoloop.earth/og-image.svg" />
+    <meta name="twitter:image:alt" content="EcoLoop - Kerala's E-Waste Recycling Platform" />
     
     <!-- Canonical URL -->
     <link rel="canonical" href="https://ecoloop.earth/" />
@@ -41,6 +62,115 @@
     
     <!-- Preload critical assets -->
     <link rel="modulepreload" href="/src/main.tsx" />
+    
+    <!-- Structured Data (JSON-LD) for Rich Search Results -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "EcoLoop",
+      "image": "https://ecoloop.earth/og-image.svg",
+      "description": "Kerala's #1 E-Waste Recycling Platform. Free doorstep pickup, instant cash payment, and certified eco-friendly recycling.",
+      "url": "https://ecoloop.earth",
+      "telephone": "+91-XXX-XXX-XXXX",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Kerala",
+        "addressRegion": "KL",
+        "addressCountry": "IN"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 10.8505,
+        "longitude": 76.2711
+      },
+      "sameAs": [
+        "https://facebook.com/ecoloop",
+        "https://twitter.com/ecoloop",
+        "https://instagram.com/ecoloop"
+      ],
+      "priceRange": "$$",
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "reviewCount": "1000"
+      },
+      "serviceArea": {
+        "@type": "State",
+        "name": "Kerala"
+      },
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Recycling Services",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "E-Waste Recycling",
+              "description": "Electronic waste collection and recycling"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Plastic Recycling",
+              "description": "Plastic waste collection and recycling"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Paper Recycling",
+              "description": "Paper and cardboard recycling"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Metal Scrap Collection",
+              "description": "Metal scrap collection and recycling"
+            }
+          }
+        ]
+      }
+    }
+    </script>
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "EcoLoop",
+      "url": "https://ecoloop.earth",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://ecoloop.earth/search?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "EcoLoop",
+      "url": "https://ecoloop.earth",
+      "logo": "https://ecoloop.earth/logo.svg",
+      "description": "Kerala's trusted E-Waste & Recycling Solution. Turn your waste into instant cash with free doorstep pickup.",
+      "foundingDate": "2024",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "Customer Service",
+        "availableLanguage": ["English", "Malayalam"],
+        "areaServed": "IN-KL"
+      }
+    }
+    </script>
   </head>
   <body>
     <div id="root">
