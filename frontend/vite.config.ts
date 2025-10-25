@@ -14,23 +14,24 @@ export default defineConfig({
     open: true,
   },
   build: {
-    // Optimize build performance
     target: 'es2015',
-    minify: 'esbuild', // Use esbuild for faster builds
-    // Code splitting for better caching
+    minify: 'esbuild',
+    cssCodeSplit: true,
+    // Code splitting for better caching and performance
     rollupOptions: {
       output: {
         manualChunks: {
           'react-vendor': ['react', 'react-dom', 'react-router-dom'],
           'ui-vendor': ['lucide-react'],
+          'toast-vendor': ['react-toastify'],
         },
       },
     },
-    // Chunk size warnings
-    chunkSizeWarningLimit: 600,
+    chunkSizeWarningLimit: 500,
+    // Optimize assets
+    assetsInlineLimit: 4096, // Inline assets smaller than 4kb
   },
-  // Optimize dependencies
   optimizeDeps: {
-    include: ['react', 'react-dom', 'react-router-dom', 'lucide-react'],
+    include: ['react', 'react-dom', 'react-router-dom', 'lucide-react', 'react-toastify'],
   },
 })

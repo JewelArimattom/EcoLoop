@@ -118,9 +118,18 @@ const WorkerDashboard: React.FC = () => {
 
   const updateWeight = async (pickupId: string) => {
     try {
-      await workerAPI.updateWeight(pickupId, weightValues[pickupId] || 0);
+      const weight = weightValues[pickupId] || 0;
+      const price = priceValues[pickupId] || 0;
+      
+      // Update both weight and price together
+      await Promise.all([
+        workerAPI.updateWeight(pickupId, weight),
+        price > 0 ? workerAPI.updatePrice(pickupId, price) : Promise.resolve()
+      ]);
+      
       setEditingWeight(null);
-      toast.success('Weight updated successfully');
+      setEditingPrice(null);
+      toast.success('Weight and price updated successfully');
       await fetchData();
     } catch (err: any) {
       const errorMsg = err.response?.data?.message || 'Failed to update weight';
@@ -130,9 +139,18 @@ const WorkerDashboard: React.FC = () => {
 
   const updatePrice = async (pickupId: string) => {
     try {
-      await workerAPI.updatePrice(pickupId, priceValues[pickupId] || 0);
+      const weight = weightValues[pickupId] || 0;
+      const price = priceValues[pickupId] || 0;
+      
+      // Update both weight and price together
+      await Promise.all([
+        weight > 0 ? workerAPI.updateWeight(pickupId, weight) : Promise.resolve(),
+        workerAPI.updatePrice(pickupId, price)
+      ]);
+      
+      setEditingWeight(null);
       setEditingPrice(null);
-      toast.success('Price updated successfully');
+      toast.success('Weight and price updated successfully');
       await fetchData();
     } catch (err: any) {
       const errorMsg = err.response?.data?.message || 'Failed to update price';
@@ -629,23 +647,36 @@ const WorkerDashboard: React.FC = () => {
                           <input
                             type="number"
                             step="0.1"
-                            value={weightValues[pickup._id] || 0}
+                            min="0"
+                            value={weightValues[pickup._id] === 0 ? '' : weightValues[pickup._id]}
                             onChange={(e) => setWeightValues({
                               ...weightValues,
                               [pickup._id]: parseFloat(e.target.value) || 0
                             })}
+                            onFocus={(e) => {
+                              if (weightValues[pickup._id] === 0) {
+                                setWeightValues({ ...weightValues, [pickup._id]: 0 });
+                                e.target.value = '';
+                              }
+                            }}
                             className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                            placeholder="0.0"
+                            placeholder="Enter weight"
+                            autoFocus
                           />
                           <button
                             onClick={() => updateWeight(pickup._id)}
                             className="px-3 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+                            title="Save"
                           >
                             <Save className="w-4 h-4" />
                           </button>
                           <button
-                            onClick={() => setEditingWeight(null)}
+                            onClick={() => {
+                              setEditingWeight(null);
+                              setEditingPrice(null);
+                            }}
                             className="px-3 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700"
+                            title="Cancel"
                           >
                             <X className="w-4 h-4" />
                           </button>
@@ -656,8 +687,12 @@ const WorkerDashboard: React.FC = () => {
                             {(weightValues[pickup._id] || 0).toFixed(1)} kg
                           </span>
                           <button
-                            onClick={() => setEditingWeight(pickup._id)}
+                            onClick={() => {
+                              setEditingWeight(pickup._id);
+                              setEditingPrice(pickup._id);
+                            }}
                             className="p-2 text-teal-600 hover:bg-teal-100 rounded-lg"
+                            title="Edit both weight and price"
                           >
                             <Edit2 className="w-4 h-4" />
                           </button>
@@ -676,23 +711,35 @@ const WorkerDashboard: React.FC = () => {
                           <input
                             type="number"
                             step="1"
-                            value={priceValues[pickup._id] || 0}
+                            min="0"
+                            value={priceValues[pickup._id] === 0 ? '' : priceValues[pickup._id]}
                             onChange={(e) => setPriceValues({
                               ...priceValues,
                               [pickup._id]: parseFloat(e.target.value) || 0
                             })}
+                            onFocus={(e) => {
+                              if (priceValues[pickup._id] === 0) {
+                                setPriceValues({ ...priceValues, [pickup._id]: 0 });
+                                e.target.value = '';
+                              }
+                            }}
                             className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500"
-                            placeholder="0"
+                            placeholder="Enter price"
                           />
                           <button
                             onClick={() => updatePrice(pickup._id)}
                             className="px-3 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+                            title="Save"
                           >
                             <Save className="w-4 h-4" />
                           </button>
                           <button
-                            onClick={() => setEditingPrice(null)}
+                            onClick={() => {
+                              setEditingWeight(null);
+                              setEditingPrice(null);
+                            }}
                             className="px-3 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700"
+                            title="Cancel"
                           >
                             <X className="w-4 h-4" />
                           </button>
@@ -703,8 +750,12 @@ const WorkerDashboard: React.FC = () => {
                             ₹{(priceValues[pickup._id] || 0).toFixed(0)}
                           </span>
                           <button
-                            onClick={() => setEditingPrice(pickup._id)}
+                            onClick={() => {
+                              setEditingWeight(pickup._id);
+                              setEditingPrice(pickup._id);
+                            }}
                             className="p-2 text-green-600 hover:bg-green-100 rounded-lg"
+                            title="Edit both weight and price"
                           >
                             <Edit2 className="w-4 h-4" />
                           </button>
