@@ -23,7 +23,7 @@ const HeroSection: React.FC = () => {
           <div className="text-center lg:text-left">
             <div className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full shadow-md mb-6">
               <Sparkles className="w-4 h-4 text-green-600" />
-              <span className="text-sm font-bold text-green-600">Kerala's #1 Recycling Platform</span>
+              <span className="text-sm font-bold text-green-600">Kerala's Trusted Recycling Platform</span>
             </div>
             
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-gray-900 leading-tight mb-6">
