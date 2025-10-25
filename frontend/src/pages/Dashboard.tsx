@@ -372,8 +372,8 @@ const Dashboard: React.FC = () => {
                       <>
                         <span className="text-gray-300">•</span>
                         <div className="flex items-center gap-1 px-3 py-1 bg-green-50 rounded-full">
-                          <span className="text-sm font-bold text-green-700">₹{pickup.price}</span>
-                          <span className="text-xs text-green-600">deal</span>
+                          <span className="text-lg font-bold text-green-700">₹{pickup.price}</span>
+                          <span className="text-sm text-green-600">deal</span>
                         </div>
                       </>
                     )}

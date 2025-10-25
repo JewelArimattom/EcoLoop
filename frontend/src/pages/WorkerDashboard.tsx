@@ -593,13 +593,21 @@ const WorkerDashboard: React.FC = () => {
                           </button>
                         )}
                         {pickup.status === 'in-progress' && (
-                          <button
-                            onClick={() => updateStatus(pickup._id, 'completed')}
-                            className="w-full px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 flex items-center justify-center gap-2"
-                          >
-                            <CheckCircle className="w-4 h-4" />
-                            Mark Completed
-                          </button>
+                          <>
+                            <button
+                              onClick={() => updateStatus(pickup._id, 'completed')}
+                              disabled={!weightValues[pickup._id] || weightValues[pickup._id] <= 0 || !priceValues[pickup._id] || priceValues[pickup._id] <= 0}
+                              className="w-full px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                              <CheckCircle className="w-4 h-4" />
+                              Mark Completed
+                            </button>
+                            {(!weightValues[pickup._id] || weightValues[pickup._id] <= 0 || !priceValues[pickup._id] || priceValues[pickup._id] <= 0) && (
+                              <p className="text-xs text-red-600 text-center">
+                                ⚠️ Add weight & price to complete
+                              </p>
+                            )}
+                          </>
                         )}
                         {pickup.status === 'completed' && (
                           <div className="p-3 bg-green-50 rounded-lg text-center">
