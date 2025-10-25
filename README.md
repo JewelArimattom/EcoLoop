@@ -72,13 +72,6 @@ cd frontend
 npm run dev
 ```
 
-## � Impact
-
-- **1,247** households served in Kerala
-- **12.4 tonnes** of waste recycled
-- **63** active collectors
-- **₹2.4 Lakh+** paid to users
-
 ## 📱 Contact
 
 - **Website**: [ecoloop.earth](https://ecoloop.earth)
