@@ -198,9 +198,9 @@ const Footer: React.FC = () => {
                   <a href="mailto:ecoloop.earth@gmail.com" className="hover:text-emerald-400">ecoloop.earth@gmail.com</a>
                 </span>
               </div>
-              <div className="text-xs text-gray-700 font-medium">
-                Made with <span className="text-emerald-400">♥</span> in Kerala
-              </div>
+              <p className="text-xs text-gray-700">
+                &copy; {new Date().getFullYear()} EcoLoop. All rights reserved.
+              </p>
             </div>
           </div>
         </div>
