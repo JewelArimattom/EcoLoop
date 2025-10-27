@@ -1,19 +1,39 @@
-# Allow all search engines to index all pages
+# Allow all search engines to index public pages
 User-agent: *
 Allow: /
+Allow: /how-it-works
+Allow: /about
+Allow: /contact
+
+# Block protected routes from indexing (prevents 403/404 errors)
+Disallow: /login
+Disallow: /signup
+Disallow: /dashboard
+Disallow: /admin/
+Disallow: /worker/
+Disallow: /api/
 
 # Sitemap location
 Sitemap: https://ecoloop.earth/sitemap.xml
 
-# Crawl-delay for politeness (optional)
+# Crawl-delay for politeness
 Crawl-delay: 1
 
 # Specific directives for major search engines
 User-agent: Googlebot
 Allow: /
+Disallow: /login
+Disallow: /signup
+Disallow: /dashboard
+Disallow: /admin/
+Disallow: /worker/
+Disallow: /api/
 
 User-agent: Bingbot
 Allow: /
-
-User-agent: Slurp
-Allow: /
+Disallow: /login
+Disallow: /signup
+Disallow: /dashboard
+Disallow: /admin/
+Disallow: /worker/
+Disallow: /api/

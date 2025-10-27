@@ -212,7 +212,7 @@ const SchedulePickup: React.FC = () => {
                 <div className={`flex items-center justify-center w-10 h-10 rounded-full font-bold ${
                   currentStep >= step 
                     ? 'bg-gradient-to-r from-emerald-500 to-teal-600 text-white' 
-                    : 'bg-gray-200 text-gray-500'
+                    : 'bg-gray-200 text-gray-700'
                 }`}>
                   {currentStep > step ? <CheckCircle className="w-6 h-6" /> : step}
                 </div>
@@ -223,9 +223,9 @@ const SchedulePickup: React.FC = () => {
             ))}
           </div>
           <div className="flex justify-between max-w-2xl mx-auto mt-2 text-sm font-medium">
-            <span className={currentStep >= 1 ? 'text-emerald-600' : 'text-gray-500'}>Select Items</span>
-            <span className={currentStep >= 2 ? 'text-emerald-600' : 'text-gray-500'}>Contact Info</span>
-            <span className={currentStep >= 3 ? 'text-emerald-600' : 'text-gray-500'}>Schedule</span>
+            <span className={currentStep >= 1 ? 'text-emerald-600' : 'text-gray-700'}>Select Items</span>
+            <span className={currentStep >= 2 ? 'text-emerald-600' : 'text-gray-700'}>Contact Info</span>
+            <span className={currentStep >= 3 ? 'text-emerald-600' : 'text-gray-700'}>Schedule</span>
           </div>
         </div>
 
@@ -447,7 +447,7 @@ const SchedulePickup: React.FC = () => {
                     }`}
                   >
                     <CheckCircle className={`w-8 h-8 mb-2 ${
-                      formData.pickupType === 'immediate' ? 'text-emerald-600' : 'text-gray-400'
+                      formData.pickupType === 'immediate' ? 'text-emerald-600' : 'text-gray-600'
                     }`} />
                     <h3 className="font-bold text-gray-900 mb-1">Immediate Pickup</h3>
                     <p className="text-sm text-gray-600">We'll pickup within 24-48 hours</p>
@@ -463,7 +463,7 @@ const SchedulePickup: React.FC = () => {
                     }`}
                   >
                     <Calendar className={`w-8 h-8 mb-2 ${
-                      formData.pickupType === 'scheduled' ? 'text-emerald-600' : 'text-gray-400'
+                      formData.pickupType === 'scheduled' ? 'text-emerald-600' : 'text-gray-600'
                     }`} />
                     <h3 className="font-bold text-gray-900 mb-1">Schedule Pickup</h3>
                     <p className="text-sm text-gray-600">Choose your preferred date and time</p>

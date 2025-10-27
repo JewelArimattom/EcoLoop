@@ -3,11 +3,17 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/logo-192.svg" />
+    <link rel="apple-touch-icon" sizes="192x192" href="/logo-192.svg" />
     <link rel="icon" type="image/svg+xml" sizes="32x32" href="/favicon.svg" />
     <link rel="icon" type="image/svg+xml" sizes="16x16" href="/favicon.svg" />
     <link rel="manifest" href="/manifest.json" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Resource Hints for Performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     
     <!-- SEO Meta Tags -->
     <title>EcoLoop - Turn Waste into Value | Kerala's Trusted Recycling Platform</title>
@@ -52,16 +58,14 @@
     <!-- Canonical URL -->
     <link rel="canonical" href="https://ecoloop.earth/" />
     
-    <!-- Fonts - Optimized with font-display swap -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&display=swap" rel="stylesheet">
+    <!-- Fonts - Optimized with font-display swap and preload -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&display=swap" as="style">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript>
+      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&display=swap" rel="stylesheet">
+    </noscript>
     
     <!-- Performance & Prefetch -->
-    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
-    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
-    
-    <!-- Preload critical assets -->
     <link rel="modulepreload" href="/src/main.tsx" />
     
     <!-- Structured Data (JSON-LD) for Rich Search Results -->

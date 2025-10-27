@@ -117,7 +117,7 @@ const Login: React.FC = () => {
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <Mail className="h-5 w-5 text-gray-400" />
+                  <Mail className="h-5 w-5 text-gray-600" />
                 </div>
                 <input
                   id="email"
@@ -147,7 +147,7 @@ const Login: React.FC = () => {
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <Lock className="h-5 w-5 text-gray-400" />
+                  <Lock className="h-5 w-5 text-gray-600" />
                 </div>
                 <input
                   id="password"
@@ -184,7 +184,7 @@ const Login: React.FC = () => {
                 </label>
               </div>
               <div className="text-sm">
-                <a href="#" className="font-semibold text-emerald-600 hover:text-emerald-500 transition-colors">
+                <a href="#" className="font-semibold text-emerald-600 hover:text-emerald-700 transition-colors">
                   Forgot password?
                 </a>
               </div>
@@ -218,7 +218,7 @@ const Login: React.FC = () => {
                 <div className="w-full border-t border-gray-200"></div>
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-4 bg-white text-gray-500 font-medium">Don't have an account?</span>
+                <span className="px-4 bg-white text-gray-700 font-medium">Don't have an account?</span>
               </div>
             </div>
           </div>

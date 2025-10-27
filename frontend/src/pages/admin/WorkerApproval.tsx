@@ -135,7 +135,7 @@ const WorkerApproval: React.FC = () => {
         <div className="bg-white rounded-xl shadow-lg p-6 mb-8 border-l-4 border-purple-500">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-500 text-sm font-medium">Pending Approvals</p>
+              <p className="text-gray-700 text-sm font-medium">Pending Approvals</p>
               <p className="text-3xl font-bold text-gray-900 mt-2">{pendingWorkers.length}</p>
             </div>
             <UserCheck className="w-12 h-12 text-purple-600 opacity-20" />
@@ -158,7 +158,7 @@ const WorkerApproval: React.FC = () => {
                   <div className="flex items-start justify-between mb-3">
                     <div>
                       <h3 className="text-xl font-bold text-gray-900 mb-1">{worker.name}</h3>
-                      <p className="text-sm text-gray-500 flex items-center gap-1">
+                      <p className="text-sm text-gray-700 flex items-center gap-1">
                         <Calendar className="w-3 h-3" />
                         Applied: {new Date(worker.createdAt).toLocaleDateString('en-US', {
                           year: 'numeric',

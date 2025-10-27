@@ -1,6 +1,6 @@
 // src/components/layout/NavigationBar.tsx
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, X, User, LogOut, LayoutDashboard, Sparkles, Recycle, Info, Phone } from 'lucide-react'; 
 import { workerAPI } from '../../services/api';
@@ -18,6 +18,7 @@ const Navbar: React.FC<NavigationBarProps> = ({ isLoggedIn, userName, userRole, 
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [availableOrdersCount, setAvailableOrdersCount] = useState(0);
+  const hoverTimerRef = useRef<number | null>(null);
 
   // Fetch available orders count for workers
   useEffect(() => {
@@ -73,16 +74,37 @@ const Navbar: React.FC<NavigationBarProps> = ({ isLoggedIn, userName, userRole, 
     };
   }, [isMobileMenuOpen, isUserMenuOpen]);
 
-  // Auto-close user menu after 5 seconds
-  useEffect(() => {
-    if (isUserMenuOpen) {
-      const timer = setTimeout(() => {
-        setIsUserMenuOpen(false);
-      }, 1500); // 5 seconds
-
-      return () => clearTimeout(timer);
+  // Hover handlers for user menu dropdown with delay
+  const handleMouseEnter = () => {
+    // Clear any existing timer
+    if (hoverTimerRef.current) {
+      clearTimeout(hoverTimerRef.current);
     }
-  }, [isUserMenuOpen]);
+    // Open menu after 200ms delay
+    hoverTimerRef.current = window.setTimeout(() => {
+      setIsUserMenuOpen(true);
+    }, 200);
+  };
+
+  const handleMouseLeave = () => {
+    // Clear any existing timer
+    if (hoverTimerRef.current) {
+      clearTimeout(hoverTimerRef.current);
+    }
+    // Close menu after 300ms delay to allow moving to dropdown
+    hoverTimerRef.current = window.setTimeout(() => {
+      setIsUserMenuOpen(false);
+    }, 300);
+  };
+
+  // Cleanup timer on unmount
+  useEffect(() => {
+    return () => {
+      if (hoverTimerRef.current) {
+        clearTimeout(hoverTimerRef.current);
+      }
+    };
+  }, []);
 
   // Auto-close mobile menu after 10 seconds
   useEffect(() => {
@@ -154,7 +176,7 @@ const Navbar: React.FC<NavigationBarProps> = ({ isLoggedIn, userName, userRole, 
           {/* Auth buttons and User Menu (Desktop) - Premium Design */}
           <div className="hidden md:block">
             {isLoggedIn ? (
-              <div className="ml-4 relative">
+              <div className="ml-4 relative" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
                 <div>
                   <button
                     onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
@@ -174,10 +196,10 @@ const Navbar: React.FC<NavigationBarProps> = ({ isLoggedIn, userName, userRole, 
                       {userName ? userName.charAt(0).toUpperCase() : <User size={20} strokeWidth={2.5} />}
                     </div>
                     <div className="flex flex-col items-start">
-                      <span className="text-xs text-gray-500 font-medium">Welcome back</span>
+                      <span className="text-xs text-gray-700 font-medium">Welcome back</span>
                       <span className="text-sm font-bold text-gray-800">{userName || 'User'}</span>
                     </div>
-                    <Sparkles className="w-4 h-4 text-emerald-500" />
+                    <Sparkles className="w-4 h-4 text-emerald-700" />
                   </button>
                 </div>
                 {/* User Dropdown Menu - Premium */}
@@ -189,7 +211,7 @@ const Navbar: React.FC<NavigationBarProps> = ({ isLoggedIn, userName, userRole, 
                     aria-labelledby="user-menu-button"
                   >
                     <div className="px-4 py-3 border-b border-gray-100">
-                      <p className="text-xs text-gray-500 font-medium uppercase tracking-wider mb-1">Account</p>
+                      <p className="text-xs text-gray-700 font-medium uppercase tracking-wider mb-1">Account</p>
                       <p className="text-sm font-bold text-gray-800">{userName || 'User'}</p>
                       {userRole && userRole !== 'user' && (
                         <p className="text-xs text-emerald-600 font-semibold capitalize">{userRole}</p>
@@ -303,7 +325,7 @@ const Navbar: React.FC<NavigationBarProps> = ({ isLoggedIn, userName, userRole, 
                         {userName ? userName.charAt(0).toUpperCase() : <User size={20} strokeWidth={2.5} />}
                       </div>
                       <div>
-                        <p className="text-xs text-gray-500 font-medium">Welcome back</p>
+                        <p className="text-xs text-gray-700 font-medium">Welcome back</p>
                         <p className="text-sm font-bold text-gray-800">{userName || 'User'}</p>
                         {userRole && userRole !== 'user' && (
                           <p className="text-xs text-emerald-600 font-semibold capitalize">{userRole}</p>

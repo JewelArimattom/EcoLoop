@@ -219,13 +219,13 @@ const HowItWorks: React.FC = () => {
                     </button>
                     
                     <h3 className={`text-lg font-bold mb-2 transition-colors ${
-                      index <= activeStep ? 'text-gray-900' : 'text-gray-400'
+                      index <= activeStep ? 'text-gray-900' : 'text-gray-600'
                     }`}>
                       {step.title}
                     </h3>
                     
                     <p className={`text-sm transition-colors ${
-                      index <= activeStep ? 'text-gray-600' : 'text-gray-400'
+                      index <= activeStep ? 'text-gray-600' : 'text-gray-600'
                     }`}>
                       {step.description}
                     </p>
@@ -258,7 +258,7 @@ const HowItWorks: React.FC = () => {
                     <h4 className="font-semibold text-gray-800">What happens:</h4>
                     {steps[activeStep].details.map((detail, idx) => (
                       <div key={idx} className="flex items-center gap-3">
-                        <CheckCircle className="w-5 h-5 text-emerald-500" strokeWidth={2.5} />
+                        <CheckCircle className="w-5 h-5 text-emerald-700" strokeWidth={2.5} />
                         <span className="text-gray-700">{detail}</span>
                       </div>
                     ))}
@@ -401,7 +401,7 @@ const HowItWorks: React.FC = () => {
             {faqs.map((faq, index) => (
               <div key={index} className="bg-gray-50 rounded-2xl p-6 border-2 border-gray-200 hover:border-emerald-300 transition-colors">
                 <h3 className="font-bold text-gray-900 mb-3 flex items-center gap-3">
-                  <CheckCircle className="w-5 h-5 text-emerald-500" strokeWidth={2.5} />
+                  <CheckCircle className="w-5 h-5 text-emerald-700" strokeWidth={2.5} />
                   {faq.question}
                 </h3>
                 <p className="text-gray-700 leading-relaxed pl-8">{faq.answer}</p>

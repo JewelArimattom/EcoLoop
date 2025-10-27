@@ -229,7 +229,7 @@ const AdminDashboard: React.FC = () => {
             <div className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-emerald-500">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-gray-500 text-sm font-medium">Total Pickups</p>
+                  <p className="text-gray-700 text-sm font-medium">Total Pickups</p>
                   <p className="text-3xl font-bold text-gray-900 mt-2">{stats.pickups.total}</p>
                 </div>
                 <Package className="w-12 h-12 text-emerald-600 opacity-20" />
@@ -247,7 +247,7 @@ const AdminDashboard: React.FC = () => {
             <div className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-blue-500">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-gray-500 text-sm font-medium">Active Users</p>
+                  <p className="text-gray-700 text-sm font-medium">Active Users</p>
                   <p className="text-3xl font-bold text-gray-900 mt-2">{stats.users.total}</p>
                 </div>
                 <Users className="w-12 h-12 text-blue-600 opacity-20" />
@@ -258,7 +258,7 @@ const AdminDashboard: React.FC = () => {
             <div className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-purple-500">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-gray-500 text-sm font-medium">Active Workers</p>
+                  <p className="text-gray-700 text-sm font-medium">Active Workers</p>
                   <p className="text-3xl font-bold text-gray-900 mt-2">{stats.users.workers}</p>
                 </div>
                 <UserCheck className="w-12 h-12 text-purple-600 opacity-20" />
@@ -269,7 +269,7 @@ const AdminDashboard: React.FC = () => {
             <div className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-teal-500">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-gray-500 text-sm font-medium">Total Weight</p>
+                  <p className="text-gray-700 text-sm font-medium">Total Weight</p>
                   <p className="text-3xl font-bold text-gray-900 mt-2">{stats.totalWeight.toFixed(1)}</p>
                 </div>
                 <Weight className="w-12 h-12 text-teal-600 opacity-20" />
@@ -284,7 +284,7 @@ const AdminDashboard: React.FC = () => {
           <div className="flex flex-col lg:flex-row gap-4">
             {/* Search */}
             <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-600 w-5 h-5" />
               <input
                 type="text"
                 placeholder="Search by tracking number, customer name, or phone..."
@@ -296,7 +296,7 @@ const AdminDashboard: React.FC = () => {
 
             {/* Status Filter */}
             <div className="flex items-center gap-2">
-              <Filter className="w-5 h-5 text-gray-400" />
+              <Filter className="w-5 h-5 text-gray-600" />
               <select
                 value={filterStatus}
                 onChange={(e) => setFilterStatus(e.target.value)}
@@ -349,7 +349,7 @@ const AdminDashboard: React.FC = () => {
                             {pickup.status.toUpperCase()}
                           </span>
                         </div>
-                        <p className="text-sm text-gray-500">
+                        <p className="text-sm text-gray-700">
                           {new Date(pickup.createdAt).toLocaleDateString('en-US', {
                             year: 'numeric',
                             month: 'long',
@@ -431,7 +431,7 @@ const AdminDashboard: React.FC = () => {
                           <p className="text-sm text-blue-700">{pickup.assignedWorker.phone}</p>
                         </div>
                       ) : (
-                        <p className="text-sm text-gray-500 italic">Not assigned yet</p>
+                        <p className="text-sm text-gray-700 italic">Not assigned yet</p>
                       )}
                     </div>
 

@@ -260,7 +260,7 @@ const Contact: React.FC = () => {
                 <div className="h-px bg-emerald-200"></div>
                 <div className="flex justify-between items-center">
                   <span className="text-gray-700 font-medium">Sunday</span>
-                  <span className="text-gray-500 font-bold">Closed</span>
+                  <span className="text-gray-700 font-bold">Closed</span>
                 </div>
               </div>
             </div>

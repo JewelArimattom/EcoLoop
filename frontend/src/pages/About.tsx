@@ -265,7 +265,7 @@ const About: React.FC = () => {
                   <ArrowRight className="w-5 h-5" />
                 </Link>
 
-                <p className="text-sm text-gray-500 mt-4">
+                <p className="text-sm text-gray-700 mt-4">
                   No hidden charges • Instant payment • 100% certified recycling
                 </p>
               </div>

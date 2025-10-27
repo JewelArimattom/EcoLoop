@@ -208,7 +208,7 @@ const HomePage: React.FC = () => {
                         <div className="space-y-3">
                           {step.features.map((feature, idx) => (
                             <div key={idx} className="flex items-center gap-3 text-sm text-gray-600 font-medium">
-                              <CheckCircle className="w-4 h-4 text-emerald-500" strokeWidth={2.5} />
+                              <CheckCircle className="w-4 h-4 text-emerald-700" strokeWidth={2.5} />
                               {feature}
                             </div>
                           ))}

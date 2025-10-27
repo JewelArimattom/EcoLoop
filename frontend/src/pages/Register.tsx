@@ -148,7 +148,7 @@ const Register: React.FC = () => {
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <User className="h-5 w-5 text-gray-400" />
+                    <User className="h-5 w-5 text-gray-600" />
                   </div>
                   <input
                     id="name"
@@ -178,7 +178,7 @@ const Register: React.FC = () => {
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <Mail className="h-5 w-5 text-gray-400" />
+                    <Mail className="h-5 w-5 text-gray-600" />
                   </div>
                   <input
                     id="email"
@@ -209,7 +209,7 @@ const Register: React.FC = () => {
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <Phone className="h-5 w-5 text-gray-400" />
+                  <Phone className="h-5 w-5 text-gray-600" />
                 </div>
                 <input
                   id="phone"
@@ -249,7 +249,7 @@ const Register: React.FC = () => {
                       : 'border-gray-200 bg-white hover:border-emerald-300'
                   }`}
                 >
-                  <User className={`w-6 h-6 mx-auto mb-2 ${formData.role === 'user' ? 'text-emerald-600' : 'text-gray-400'}`} />
+                  <User className={`w-6 h-6 mx-auto mb-2 ${formData.role === 'user' ? 'text-emerald-600' : 'text-gray-600'}`} />
                   <div className="text-sm font-semibold text-gray-900">User</div>
                   <div className="text-xs text-gray-600 mt-1">Schedule pickups</div>
                 </button>
@@ -262,7 +262,7 @@ const Register: React.FC = () => {
                       : 'border-gray-200 bg-white hover:border-blue-300'
                   }`}
                 >
-                  <Recycle className={`w-6 h-6 mx-auto mb-2 ${formData.role === 'worker' ? 'text-blue-600' : 'text-gray-400'}`} />
+                  <Recycle className={`w-6 h-6 mx-auto mb-2 ${formData.role === 'worker' ? 'text-blue-600' : 'text-gray-600'}`} />
                   <div className="text-sm font-semibold text-gray-900">Worker</div>
                   <div className="text-xs text-gray-600 mt-1">Collect e-waste</div>
                 </button>
@@ -286,7 +286,7 @@ const Register: React.FC = () => {
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <Lock className="h-5 w-5 text-gray-400" />
+                    <Lock className="h-5 w-5 text-gray-600" />
                   </div>
                   <input
                     id="password"
@@ -316,7 +316,7 @@ const Register: React.FC = () => {
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <Shield className="h-5 w-5 text-gray-400" />
+                    <Shield className="h-5 w-5 text-gray-600" />
                   </div>
                   <input
                     id="confirmPassword"
@@ -396,11 +396,11 @@ const Register: React.FC = () => {
               />
               <label htmlFor="terms" className="ml-3 text-sm text-gray-600">
                 I agree to the{' '}
-                <a href="#" className="font-semibold text-emerald-600 hover:text-emerald-500">
+                <a href="#" className="font-semibold text-emerald-600 hover:text-emerald-700">
                   Terms and Conditions
                 </a>{' '}
                 and{' '}
-                <a href="#" className="font-semibold text-emerald-600 hover:text-emerald-500">
+                <a href="#" className="font-semibold text-emerald-600 hover:text-emerald-700">
                   Privacy Policy
                 </a>
               </label>
@@ -432,7 +432,7 @@ const Register: React.FC = () => {
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">
               Already have an account?{' '}
-              <Link to="/login" className="font-semibold text-emerald-600 hover:text-emerald-500 transition-colors">
+              <Link to="/login" className="font-semibold text-emerald-600 hover:text-emerald-700 transition-colors">
                 Sign In
               </Link>
             </p>

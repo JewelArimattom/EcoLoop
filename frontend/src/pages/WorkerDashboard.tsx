@@ -267,7 +267,7 @@ const WorkerDashboard: React.FC = () => {
             <div className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-orange-500">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-gray-500 text-sm font-medium">Assigned Pickups</p>
+                  <p className="text-gray-700 text-sm font-medium">Assigned Pickups</p>
                   <p className="text-3xl font-bold text-gray-900 mt-2">{stats.assignedPickups}</p>
                 </div>
                 <Package className="w-12 h-12 text-orange-600 opacity-20" />
@@ -278,7 +278,7 @@ const WorkerDashboard: React.FC = () => {
             <div className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-amber-500">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-gray-500 text-sm font-medium">Pending</p>
+                  <p className="text-gray-700 text-sm font-medium">Pending</p>
                   <p className="text-3xl font-bold text-gray-900 mt-2">{stats.pendingPickups}</p>
                 </div>
                 <Clock className="w-12 h-12 text-amber-600 opacity-20" />
@@ -289,7 +289,7 @@ const WorkerDashboard: React.FC = () => {
             <div className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-green-500">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-gray-500 text-sm font-medium">Completed</p>
+                  <p className="text-gray-700 text-sm font-medium">Completed</p>
                   <p className="text-3xl font-bold text-gray-900 mt-2">{stats.completedPickups}</p>
                 </div>
                 <CheckCircle className="w-12 h-12 text-green-600 opacity-20" />
@@ -300,7 +300,7 @@ const WorkerDashboard: React.FC = () => {
             <div className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-yellow-500">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-gray-500 text-sm font-medium">Total Weight</p>
+                  <p className="text-gray-700 text-sm font-medium">Total Weight</p>
                   <p className="text-3xl font-bold text-gray-900 mt-2">{stats.totalWeight.toFixed(1)}</p>
                 </div>
                 <Weight className="w-12 h-12 text-yellow-600 opacity-20" />
@@ -350,7 +350,7 @@ const WorkerDashboard: React.FC = () => {
                                 AVAILABLE
                               </span>
                             </div>
-                            <p className="text-sm text-gray-500">
+                            <p className="text-sm text-gray-700">
                               Posted: {new Date(pickup.createdAt).toLocaleDateString('en-US', {
                                 year: 'numeric',
                                 month: 'long',
@@ -416,7 +416,7 @@ const WorkerDashboard: React.FC = () => {
                             </>
                           )}
                         </button>
-                        <p className="text-xs text-center text-gray-500 mt-3">
+                        <p className="text-xs text-center text-gray-700 mt-3">
                           This order will be assigned to you instantly
                         </p>
                       </div>
@@ -516,7 +516,7 @@ const WorkerDashboard: React.FC = () => {
                             {pickup.status.toUpperCase()}
                           </span>
                         </div>
-                        <p className="text-sm text-gray-500">
+                        <p className="text-sm text-gray-700">
                           Assigned: {new Date(pickup.createdAt).toLocaleDateString('en-US', {
                             year: 'numeric',
                             month: 'long',

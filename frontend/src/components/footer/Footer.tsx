@@ -26,24 +26,24 @@ const Footer: React.FC = () => {
                 EcoLoop
               </span>
             </Link>
-            <p className="text-xs text-gray-400 mb-4 max-w-xs mx-auto">
+            <p className="text-xs text-gray-600 mb-4 max-w-xs mx-auto">
               Kerala's trusted e-waste recycling platform
             </p>
           </div>
 
           {/* Quick Links - Horizontal on Mobile */}
           <div className="flex flex-wrap justify-center gap-3 mb-6 text-xs">
-            <Link to="/how-it-works" className="text-gray-400 hover:text-emerald-400">How It Works</Link>
+            <Link to="/how-it-works" className="text-gray-600 hover:text-emerald-400">How It Works</Link>
             <span className="text-gray-600">•</span>
-            <Link to="/about" className="text-gray-400 hover:text-emerald-400">About</Link>
+            <Link to="/about" className="text-gray-600 hover:text-emerald-400">About</Link>
             <span className="text-gray-600">•</span>
-            <Link to="/contact" className="text-gray-400 hover:text-emerald-400">Contact</Link>
+            <Link to="/contact" className="text-gray-600 hover:text-emerald-400">Contact</Link>
             <span className="text-gray-600">•</span>
-            <Link to="/privacy-policy" className="text-gray-400 hover:text-emerald-400">Privacy</Link>
+            <Link to="/privacy-policy" className="text-gray-600 hover:text-emerald-400">Privacy</Link>
           </div>
 
           {/* Contact Info - Compact */}
-          <div className="flex flex-col items-center gap-2 text-xs text-gray-400 mb-4">
+          <div className="flex flex-col items-center gap-2 text-xs text-gray-600 mb-4">
             <div className="flex items-center gap-2">
               <Phone className="w-3 h-3 text-emerald-400" />
               <a href="tel:+919061336064" className="hover:text-emerald-400">+91 90613 36064</a>
@@ -58,7 +58,7 @@ const Footer: React.FC = () => {
             </div>
           </div>
 
-          <p className="text-center text-xs text-gray-500">
+          <p className="text-center text-xs text-gray-700">
             © {new Date().getFullYear()} EcoLoop. Made with <span className="text-emerald-400">♥</span> in Kerala
           </p>
         </div>
@@ -80,19 +80,19 @@ const Footer: React.FC = () => {
                   <span className="text-3xl font-bold bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent tracking-tight">
                     EcoLoop
                   </span>
-                  <span className="text-[10px] text-gray-400 font-medium tracking-wider uppercase -mt-1">
+                  <span className="text-[10px] text-gray-600 font-medium tracking-wider uppercase -mt-1">
                     Premium Recycling
                   </span>
                 </div>
               </Link>
-              <p className="text-gray-400 text-sm mb-6 max-w-xs leading-relaxed">
+              <p className="text-gray-600 text-sm mb-6 max-w-xs leading-relaxed">
                 Kerala's most trusted e-waste and scrap recycling platform. Turning waste into wealth, responsibly.
               </p>
               <div className="flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 px-4 py-2 rounded-xl">
                 <Award className="w-4 h-4 text-emerald-400" strokeWidth={2.5} />
                 <span className="text-xs font-semibold text-emerald-300">Certified & Trusted</span>
               </div>
-              <p className="text-gray-500 text-xs mt-6">
+              <p className="text-gray-700 text-xs mt-6">
                 © {new Date().getFullYear()} EcoLoop. All rights reserved.
               </p>
             </div>
@@ -155,28 +155,28 @@ const Footer: React.FC = () => {
                 <div className="w-1 h-6 bg-gradient-to-b from-emerald-500 to-teal-500 rounded-full"></div>
                 Stay Connected
               </h3>
-              <p className="text-sm mb-5 text-center md:text-left text-gray-400 font-medium">
+              <p className="text-sm mb-5 text-center md:text-left text-gray-600 font-medium">
                 Get in touch with us
               </p>
               
               {/* Contact */}
               <div className="space-y-3 text-sm mb-6">
-                <div className="flex items-center gap-2 text-gray-400">
+                <div className="flex items-center gap-2 text-gray-600">
                   <Phone className="w-4 h-4 text-emerald-400" strokeWidth={2.5} />
                   <a href="tel:+919061336064" className="hover:text-emerald-400">+91 90613 36064</a>
                 </div>
-                <div className="flex items-center gap-2 text-gray-400">
+                <div className="flex items-center gap-2 text-gray-600">
                   <Mail className="w-4 h-4 text-emerald-400" strokeWidth={2.5} />
                   <a href="mailto:ecoloop.earth@gmail.com" className="hover:text-emerald-400">ecoloop.earth@gmail.com</a>
                 </div>
-                <div className="flex items-center gap-2 text-gray-400">
+                <div className="flex items-center gap-2 text-gray-600">
                   <MapPin className="w-4 h-4 text-emerald-400" strokeWidth={2.5} />
                   <span>Pala, Kottayam, Kerala</span>
                 </div>
               </div>
               
               {/* Social Media Placeholder - Coming Soon */}
-              <p className="text-xs text-gray-500 italic">Social media links coming soon...</p>
+              <p className="text-xs text-gray-700 italic">Social media links coming soon...</p>
             </div>
 
           </div>
@@ -184,7 +184,7 @@ const Footer: React.FC = () => {
           {/* Bottom Bar */}
           <div className="pt-8 mt-8 border-t border-gray-700/50">
             <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-              <div className="flex flex-wrap items-center justify-center gap-6 text-xs text-gray-500">
+              <div className="flex flex-wrap items-center justify-center gap-6 text-xs text-gray-700">
                 <span className="flex items-center gap-2">
                   <Award className="w-4 h-4 text-emerald-400" strokeWidth={2.5} />
                   ISO Certified
@@ -198,7 +198,7 @@ const Footer: React.FC = () => {
                   <a href="mailto:ecoloop.earth@gmail.com" className="hover:text-emerald-400">ecoloop.earth@gmail.com</a>
                 </span>
               </div>
-              <div className="text-xs text-gray-500 font-medium">
+              <div className="text-xs text-gray-700 font-medium">
                 Made with <span className="text-emerald-400">♥</span> in Kerala
               </div>
             </div>

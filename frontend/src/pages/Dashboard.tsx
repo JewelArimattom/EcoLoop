@@ -319,7 +319,7 @@ const Dashboard: React.FC = () => {
                     <p className="text-xs sm:text-sm text-gray-600 font-medium mb-1">
                       Tracking: <span className="text-emerald-600 font-mono break-all">{pickup.trackingNumber}</span>
                     </p>
-                    <p className="text-xs text-gray-500">
+                    <p className="text-xs text-gray-700">
                       Booked on {new Date(pickup.createdAt).toLocaleDateString('en-US', { 
                         year: 'numeric', 
                         month: 'long', 
@@ -330,25 +330,25 @@ const Dashboard: React.FC = () => {
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 mb-4">
                     <div className="flex items-start gap-3">
-                      <Package className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400 flex-shrink-0 mt-0.5" />
+                      <Package className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600 flex-shrink-0 mt-0.5" />
                       <div className="min-w-0">
-                        <p className="text-xs text-gray-500 font-medium mb-1">Items</p>
+                        <p className="text-xs text-gray-700 font-medium mb-1">Items</p>
                         <p className="text-xs sm:text-sm text-gray-900 break-words">{pickup.items.join(', ')}</p>
                       </div>
                     </div>
 
                     <div className="flex items-start gap-3">
-                      <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400 flex-shrink-0 mt-0.5" />
+                      <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600 flex-shrink-0 mt-0.5" />
                       <div className="min-w-0">
-                        <p className="text-xs text-gray-500 font-medium mb-1">Location</p>
+                        <p className="text-xs text-gray-700 font-medium mb-1">Location</p>
                         <p className="text-xs sm:text-sm text-gray-900 break-words">{pickup.address.city}, {pickup.address.state}</p>
                       </div>
                     </div>
 
                     <div className="flex items-start gap-3">
-                      <Calendar className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400 flex-shrink-0 mt-0.5" />
+                      <Calendar className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600 flex-shrink-0 mt-0.5" />
                       <div className="min-w-0">
-                        <p className="text-xs text-gray-500 font-medium mb-1">Pickup Type</p>
+                        <p className="text-xs text-gray-700 font-medium mb-1">Pickup Type</p>
                         <p className="text-xs sm:text-sm text-gray-900 capitalize break-words">
                           {pickup.pickupType === 'immediate' ? 'Within 24-48 hours' : 
                            `${new Date(pickup.scheduledDate!).toLocaleDateString()} - ${pickup.scheduledTime}`}
@@ -359,7 +359,7 @@ const Dashboard: React.FC = () => {
 
                   <div className="flex flex-wrap items-center gap-2 sm:gap-3 pt-4 border-t border-gray-100">
                     <div className="flex items-center gap-2">
-                      <Phone className="w-4 h-4 text-gray-400 flex-shrink-0" />
+                      <Phone className="w-4 h-4 text-gray-600 flex-shrink-0" />
                       <span className="text-xs sm:text-sm text-gray-600">{pickup.contactInfo.phone}</span>
                     </div>
                     {pickup.contactInfo.email && (
