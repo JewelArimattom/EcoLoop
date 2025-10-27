@@ -59,7 +59,7 @@ const Footer: React.FC = () => {
           </div>
 
           <p className="text-center text-xs text-gray-700">
-            © {new Date().getFullYear()} EcoLoop. Made with <span className="text-emerald-400">♥</span> in Kerala
+            &copy; {new Date().getFullYear()} EcoLoop. All rights reserved.
           </p>
         </div>
 
