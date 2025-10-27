@@ -14,6 +14,8 @@ const SchedulePickup = lazy(() => import('./pages/SchedulePickup'));
 const HowItWorks = lazy(() => import('./pages/HowItWorks'));
 const About = lazy(() => import('./pages/About'));
 const Contact = lazy(() => import('./pages/Contact'));
+const Privacy = lazy(() => import('./pages/Privacy'));
+const NotFound = lazy(() => import('./pages/NotFound'));
 const Login = lazy(() => import('./pages/Login'));
 const Register = lazy(() => import('./pages/Register'));
 const Dashboard = lazy(() => import('./pages/Dashboard'));
@@ -99,6 +101,8 @@ const AppContent: React.FC = () => {
             <Route path="/how-it-works" element={<HowItWorks />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/privacy" element={<Privacy />} />
+            <Route path="/privacy-policy" element={<Privacy />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Register />} />
             <Route path="/admin/login" element={<AdminLogin />} />
@@ -144,12 +148,7 @@ const AppContent: React.FC = () => {
             />
             <Route 
               path="*" 
-              element={
-                <div className="p-8 text-center">
-                  <h1 className="text-3xl font-bold text-gray-900 mb-4">404 - Page Not Found</h1>
-                  <p className="text-gray-600">Sorry, the page you are looking for does not exist.</p>
-                </div>
-              } 
+              element={<NotFound />} 
             />
           </Routes>
         </Suspense>

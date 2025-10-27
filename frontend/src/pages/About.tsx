@@ -19,15 +19,15 @@ const About: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-sm font-semibold text-white mb-6">
-              <Leaf className="w-4 h-4" />
+              <Leaf className="w-4 h-4" strokeWidth={2.5} />
               About EcoLoop
             </div>
             <h1 className="text-4xl md:text-6xl font-black text-white mb-6 tracking-tight">
-              Building a <span className="text-cyan-200">Sustainable Future</span>
+              Transforming Waste into <span className="text-cyan-200">Wealth</span>
             </h1>
             <p className="text-xl text-white/90 max-w-3xl mx-auto leading-relaxed">
-              We're on a mission to revolutionize e-waste recycling in India, making it easy, 
-              profitable, and environmentally responsible for everyone.
+              Kerala's most trusted e-waste and scrap recycling platform. We're making sustainable 
+              recycling easy, profitable, and environmentally responsible for everyone.
             </p>
           </div>
         </div>
@@ -38,28 +38,30 @@ const About: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Mission */}
-            <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100">
+            <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100 hover:shadow-xl transition-all">
               <div className="inline-flex p-4 bg-emerald-100 rounded-2xl mb-6">
-                <Target className="w-8 h-8 text-emerald-600" />
+                <Target className="w-8 h-8 text-emerald-600" strokeWidth={2.5} />
               </div>
               <h2 className="text-3xl font-bold text-gray-900 mb-4">Our Mission</h2>
-              <p className="text-gray-600 text-lg leading-relaxed">
-                To create a sustainable ecosystem where electronic waste is efficiently collected, 
-                responsibly recycled, and transformed into valuable resources, while providing 
-                fair compensation to our customers and protecting our environment for future generations.
+              <p className="text-gray-700 text-lg leading-relaxed">
+                To create India's most convenient and trustworthy e-waste recycling ecosystem where 
+                electronic waste is efficiently collected from your doorstep, responsibly processed, 
+                and transformed into valuable resources—while ensuring fair compensation and protecting 
+                our planet for future generations.
               </p>
             </div>
 
             {/* Vision */}
-            <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100">
+            <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100 hover:shadow-xl transition-all">
               <div className="inline-flex p-4 bg-cyan-100 rounded-2xl mb-6">
-                <Globe className="w-8 h-8 text-cyan-600" />
+                <Globe className="w-8 h-8 text-cyan-600" strokeWidth={2.5} />
               </div>
               <h2 className="text-3xl font-bold text-gray-900 mb-4">Our Vision</h2>
-              <p className="text-gray-600 text-lg leading-relaxed">
-                To become India's most trusted e-waste management platform, setting new standards 
-                for transparency, efficiency, and environmental responsibility in the recycling industry, 
-                while empowering every household and business to contribute to a circular economy.
+              <p className="text-gray-700 text-lg leading-relaxed">
+                To become Kerala's leading e-waste management platform, setting new benchmarks for 
+                transparency, efficiency, and environmental responsibility. We envision a future where 
+                every household and business in Kerala actively participates in the circular economy, 
+                turning waste into wealth while protecting our beautiful state.
               </p>
             </div>
           </div>
@@ -73,7 +75,7 @@ const About: React.FC = () => {
             <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-4">
               Our Core <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-cyan-600">Values</span>
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="text-lg text-gray-700 max-w-2xl mx-auto">
               The principles that guide everything we do at EcoLoop
             </p>
           </div>
@@ -83,34 +85,34 @@ const About: React.FC = () => {
               {
                 icon: Shield,
                 title: 'Trust & Transparency',
-                description: 'Complete transparency in pricing, processes, and environmental impact',
+                description: 'Complete transparency in pricing, processes, and environmental impact tracking',
                 color: 'emerald'
               },
               {
                 icon: Leaf,
                 title: 'Environmental Care',
-                description: 'Zero tolerance for harmful practices, 100% certified recycling',
+                description: 'Zero tolerance for harmful practices, 100% certified eco-friendly recycling',
                 color: 'green'
               },
               {
                 icon: Users,
                 title: 'Customer First',
-                description: 'Fair prices, convenient service, and exceptional support',
+                description: 'Fair market prices, doorstep convenience, and exceptional customer support',
                 color: 'blue'
               },
               {
                 icon: Award,
                 title: 'Excellence',
-                description: 'Highest standards in every aspect of our operations',
+                description: 'Maintaining highest quality standards in every aspect of our operations',
                 color: 'purple'
               }
             ].map((value, index) => (
-              <div key={index} className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-all">
-                <div className={`inline-flex p-3 bg-${value.color}-100 rounded-xl mb-4`}>
-                  <value.icon className={`w-6 h-6 text-${value.color}-600`} />
+              <div key={index} className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-all group">
+                <div className={`inline-flex p-3 bg-${value.color}-100 rounded-xl mb-4 group-hover:scale-110 transition-transform`}>
+                  <value.icon className={`w-6 h-6 text-${value.color}-600`} strokeWidth={2.5} />
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-2">{value.title}</h3>
-                <p className="text-gray-600">{value.description}</p>
+                <p className="text-gray-700">{value.description}</p>
               </div>
             ))}
           </div>
@@ -124,24 +126,24 @@ const About: React.FC = () => {
             <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-4">
               Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-cyan-600">Impact</span>
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Making a real difference, one pickup at a time
+            <p className="text-lg text-gray-700 max-w-2xl mx-auto">
+              Making a real difference in Kerala, one pickup at a time
             </p>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
-              { value: '50K+', label: 'Items Recycled', icon: Recycle },
-              { value: '10K+', label: 'Happy Customers', icon: Heart },
-              { value: '₹25L+', label: 'Paid to Customers', icon: TrendingUp },
-              { value: '100%', label: 'Certified Recycling', icon: Award }
+              { value: '10K+', label: 'Items Recycled', icon: Recycle },
+              { value: '2K+', label: 'Happy Customers', icon: Heart },
+              { value: '₹5L+', label: 'Paid to Customers', icon: TrendingUp },
+              { value: '100%', label: 'Certified Process', icon: Award }
             ].map((stat, index) => (
-              <div key={index} className="text-center bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
-                <div className="inline-flex p-3 bg-emerald-100 rounded-xl mb-3">
-                  <stat.icon className="w-6 h-6 text-emerald-600" />
+              <div key={index} className="text-center bg-white rounded-2xl p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-all group">
+                <div className="inline-flex p-3 bg-emerald-100 rounded-xl mb-3 group-hover:scale-110 transition-transform">
+                  <stat.icon className="w-6 h-6 text-emerald-600" strokeWidth={2.5} />
                 </div>
                 <div className="text-3xl md:text-4xl font-black text-emerald-600 mb-2">{stat.value}</div>
-                <div className="text-sm font-semibold text-gray-600">{stat.label}</div>
+                <div className="text-sm font-semibold text-gray-700">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -155,8 +157,8 @@ const About: React.FC = () => {
             <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-4">
               How We <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-cyan-600">Operate</span>
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Our certified process ensures safe, efficient, and environmentally responsible recycling
+            <p className="text-lg text-gray-700 max-w-2xl mx-auto">
+              Our streamlined process ensures safe, efficient, and environmentally responsible recycling
             </p>
           </div>
 
@@ -164,31 +166,31 @@ const About: React.FC = () => {
             {[
               {
                 step: '01',
-                title: 'Collection',
-                description: 'Free doorstep pickup by our trained executives at your convenience',
+                title: 'Schedule Pickup',
+                description: 'Book a free doorstep pickup at your convenience through our easy-to-use platform',
                 icon: MapPin
               },
               {
                 step: '02',
-                title: 'Evaluation',
-                description: 'Professional assessment and instant fair price offer based on market rates',
+                title: 'Fair Evaluation',
+                description: 'Our trained professionals assess your items and offer instant fair market prices',
                 icon: CheckCircle
               },
               {
                 step: '03',
-                title: 'Recycling',
-                description: 'Certified processing at our partner facilities with zero environmental impact',
+                title: 'Certified Recycling',
+                description: 'Items are processed at certified facilities with zero environmental impact',
                 icon: Recycle
               }
             ].map((item, index) => (
-              <div key={index} className="relative">
-                <div className="bg-gradient-to-br from-emerald-50 to-cyan-50 rounded-2xl p-8 border border-emerald-200">
+              <div key={index} className="relative group">
+                <div className="bg-gradient-to-br from-emerald-50 to-cyan-50 rounded-2xl p-8 border border-emerald-200 hover:border-emerald-400 transition-all">
                   <div className="text-6xl font-black text-emerald-200 mb-4">{item.step}</div>
-                  <div className="inline-flex p-3 bg-white rounded-xl mb-4 shadow-md">
-                    <item.icon className="w-6 h-6 text-emerald-600" />
+                  <div className="inline-flex p-3 bg-white rounded-xl mb-4 shadow-md group-hover:scale-110 transition-transform">
+                    <item.icon className="w-6 h-6 text-emerald-600" strokeWidth={2.5} />
                   </div>
                   <h3 className="text-2xl font-bold text-gray-900 mb-3">{item.title}</h3>
-                  <p className="text-gray-600">{item.description}</p>
+                  <p className="text-gray-700">{item.description}</p>
                 </div>
               </div>
             ))}
@@ -204,44 +206,44 @@ const About: React.FC = () => {
               {/* Contact Info */}
               <div className="bg-gradient-to-br from-emerald-600 to-cyan-600 p-8 md:p-12 text-white">
                 <h2 className="text-3xl font-bold mb-6">Get in Touch</h2>
-                <p className="text-white/90 mb-8">
+                <p className="text-white/90 mb-8 text-lg">
                   Have questions? Want to partner with us? We'd love to hear from you!
                 </p>
                 
                 <div className="space-y-6">
                   <div className="flex items-start gap-4">
                     <div className="p-3 bg-white/10 rounded-xl backdrop-blur-sm">
-                      <Phone className="w-5 h-5" />
+                      <Phone className="w-6 h-6" strokeWidth={2.5} />
                     </div>
                     <div>
-                      <div className="font-semibold mb-1">Phone</div>
-                      <a href="tel:+1800-ECOLOOP" className="text-white/90 hover:text-white">
-                        1800-ECOLOOP
+                      <div className="font-semibold mb-1 text-lg">Phone</div>
+                      <a href="tel:+919061336064" className="text-white/90 hover:text-white text-lg transition">
+                        +91 90613 36064
                       </a>
                     </div>
                   </div>
 
                   <div className="flex items-start gap-4">
                     <div className="p-3 bg-white/10 rounded-xl backdrop-blur-sm">
-                      <Mail className="w-5 h-5" />
+                      <Mail className="w-6 h-6" strokeWidth={2.5} />
                     </div>
                     <div>
-                      <div className="font-semibold mb-1">Email</div>
-                      <a href="mailto:hello@ecoloop.com" className="text-white/90 hover:text-white">
-                        hello@ecoloop.com
+                      <div className="font-semibold mb-1 text-lg">Email</div>
+                      <a href="mailto:ecoloop.earth@gmail.com" className="text-white/90 hover:text-white text-lg transition">
+                        ecoloop.earth@gmail.com
                       </a>
                     </div>
                   </div>
 
                   <div className="flex items-start gap-4">
                     <div className="p-3 bg-white/10 rounded-xl backdrop-blur-sm">
-                      <MapPin className="w-5 h-5" />
+                      <MapPin className="w-6 h-6" strokeWidth={2.5} />
                     </div>
                     <div>
-                      <div className="font-semibold mb-1">Address</div>
-                      <p className="text-white/90">
-                        Green Tech Park, Sector 18<br />
-                        Bangalore, Karnataka 560100
+                      <div className="font-semibold mb-1 text-lg">Location</div>
+                      <p className="text-white/90 text-lg">
+                        Pala, Kottayam<br />
+                        Kerala, India
                       </p>
                     </div>
                   </div>
@@ -249,25 +251,37 @@ const About: React.FC = () => {
               </div>
 
               {/* CTA */}
-              <div className="p-8 md:p-12 flex flex-col justify-center">
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">
+              <div className="p-8 md:p-12 flex flex-col justify-center bg-gray-50">
+                <h3 className="text-3xl font-bold text-gray-900 mb-4">
                   Ready to Make a Difference?
                 </h3>
-                <p className="text-gray-600 mb-6">
-                  Join thousands of satisfied customers who've already turned their e-waste into instant cash.
+                <p className="text-gray-700 mb-8 text-lg leading-relaxed">
+                  Join thousands of satisfied customers across Kerala who've already turned their 
+                  e-waste into instant cash while protecting our environment.
                 </p>
                 
                 <Link 
                   to="/schedule-pickup"
-                  className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white px-8 py-4 rounded-xl text-lg font-bold shadow-lg shadow-emerald-500/30 hover:shadow-emerald-500/50 transition-all"
+                  className="inline-flex items-center justify-center gap-3 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white px-8 py-4 rounded-xl text-lg font-bold shadow-lg shadow-emerald-500/30 hover:shadow-emerald-500/50 transition-all group"
                 >
                   Schedule Free Pickup
-                  <ArrowRight className="w-5 h-5" />
+                  <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" strokeWidth={2.5} />
                 </Link>
 
-                <p className="text-sm text-gray-700 mt-4">
-                  No hidden charges • Instant payment • 100% certified recycling
-                </p>
+                <div className="flex flex-wrap gap-4 mt-6 text-sm text-gray-700">
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="w-5 h-5 text-emerald-600" strokeWidth={2.5} />
+                    <span className="font-semibold">No hidden charges</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="w-5 h-5 text-emerald-600" strokeWidth={2.5} />
+                    <span className="font-semibold">Instant payment</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="w-5 h-5 text-emerald-600" strokeWidth={2.5} />
+                    <span className="font-semibold">100% certified</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

@@ -41,6 +41,14 @@
     <priority>0.9</priority>
   </url>
 
+  <!-- Privacy Policy -->
+  <url>
+    <loc>https://ecoloop.earth/privacy</loc>
+    <lastmod>2025-10-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
   <!-- NOTE: Protected routes (login, signup, dashboard, admin, worker) are NOT included 
        to avoid 403/404 indexing errors. These pages require authentication and should not be indexed by Google. -->
 
