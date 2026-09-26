@@ -59,20 +59,6 @@ const Contact: React.FC = () => {
           
           {/* Contact Cards */}
           <div className="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition-shadow border border-gray-100">
-            <div className="bg-gradient-to-br from-emerald-500 to-teal-600 w-14 h-14 rounded-xl flex items-center justify-center mb-4">
-              <Phone className="w-7 h-7 text-white" strokeWidth={2.5} />
-            </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-2">Phone</h3>
-            <p className="text-gray-600 mb-3 text-sm">Mon-Sat from 8am to 8pm</p>
-            <a 
-              href="tel:+919061336064" 
-              className="text-emerald-600 font-semibold hover:text-emerald-700 text-lg"
-            >
-              +91 90613 36064
-            </a>
-          </div>
-
-          <div className="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition-shadow border border-gray-100">
             <div className="bg-gradient-to-br from-blue-500 to-cyan-600 w-14 h-14 rounded-xl flex items-center justify-center mb-4">
               <Mail className="w-7 h-7 text-white" strokeWidth={2.5} />
             </div>

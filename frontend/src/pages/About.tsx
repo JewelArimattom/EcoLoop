@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { 
   Recycle, Target, Users, Award, Shield, Leaf, 
   TrendingUp, Heart, Globe, ArrowRight, CheckCircle,
-  Mail, Phone, MapPin
+  Mail, MapPin
 } from 'lucide-react';
 
 const About: React.FC = () => {
@@ -211,18 +211,6 @@ const About: React.FC = () => {
                 </p>
                 
                 <div className="space-y-6">
-                  <div className="flex items-start gap-4">
-                    <div className="p-3 bg-white/10 rounded-xl backdrop-blur-sm">
-                      <Phone className="w-6 h-6" strokeWidth={2.5} />
-                    </div>
-                    <div>
-                      <div className="font-semibold mb-1 text-lg">Phone</div>
-                      <a href="tel:+919061336064" className="text-white/90 hover:text-white text-lg transition">
-                        +91 90613 36064
-                      </a>
-                    </div>
-                  </div>
-
                   <div className="flex items-start gap-4">
                     <div className="p-3 bg-white/10 rounded-xl backdrop-blur-sm">
                       <Mail className="w-6 h-6" strokeWidth={2.5} />

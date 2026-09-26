@@ -269,12 +269,6 @@ const Privacy: React.FC = () => {
               </a>
             </div>
             <div className="bg-white/10 backdrop-blur-sm p-4 rounded-xl">
-              <p className="text-sm text-white/80 mb-1">Phone</p>
-              <a href="tel:+919061336064" className="font-bold hover:text-yellow-300 transition">
-                +91 90613 36064
-              </a>
-            </div>
-            <div className="bg-white/10 backdrop-blur-sm p-4 rounded-xl">
               <p className="text-sm text-white/80 mb-1">Location</p>
               <p className="font-bold">Pala, Kottayam, Kerala</p>
             </div>

@@ -8,12 +8,8 @@ import {
 
 const Footer: React.FC = () => {
   return (
-    <footer className="relative bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-gray-300 pt-12 md:pt-16 pb-6 md:pb-8 mt-12 md:mt-16 overflow-hidden">
-      {/* Background Elements */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(16,185,129,0.05),transparent_50%),radial-gradient(circle_at_70%_80%,rgba(6,182,212,0.05),transparent_50%)]"></div>
-      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-emerald-500 to-transparent"></div>
-      
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <footer className="bg-gray-900 text-gray-300 pt-10 pb-8 mt-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Mobile Footer - Minimal */}
         <div className="block md:hidden">
@@ -44,10 +40,6 @@ const Footer: React.FC = () => {
 
           {/* Contact Info - Compact */}
           <div className="flex flex-col items-center gap-2 text-xs text-gray-600 mb-4">
-            <div className="flex items-center gap-2">
-              <Phone className="w-3 h-3 text-emerald-400" />
-              <a href="tel:+919061336064" className="hover:text-emerald-400">+91 90613 36064</a>
-            </div>
             <div className="flex items-center gap-2">
               <Mail className="w-3 h-3 text-emerald-400" />
               <a href="mailto:ecoloop.earth@gmail.com" className="hover:text-emerald-400">ecoloop.earth@gmail.com</a>
@@ -160,10 +152,6 @@ const Footer: React.FC = () => {
               
               {/* Contact */}
               <div className="space-y-3 text-sm mb-6">
-                <div className="flex items-center gap-2 text-gray-600">
-                  <Phone className="w-4 h-4 text-emerald-400" strokeWidth={2.5} />
-                  <a href="tel:+919061336064" className="hover:text-emerald-400">+91 90613 36064</a>
-                </div>
                 <div className="flex items-center gap-2 text-gray-600">
                   <Mail className="w-4 h-4 text-emerald-400" strokeWidth={2.5} />
                   <a href="mailto:ecoloop.earth@gmail.com" className="hover:text-emerald-400">ecoloop.earth@gmail.com</a>
