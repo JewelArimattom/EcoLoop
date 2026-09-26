@@ -133,22 +133,13 @@ const Navbar: React.FC<NavigationBarProps> = ({ isLoggedIn, userName, userRole, 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           
-          {/* Logo - Matching Hero Design */}
+          {/* Logo - Simple */}
           <div className="flex-shrink-0">
-            <Link to="/" className="flex items-center gap-3 group">
-              <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500 rounded-xl blur-md group-hover:blur-lg transition-all duration-300 opacity-40"></div>
-                <div className="relative bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 p-2.5 rounded-xl shadow-lg">
-                  <Recycle className="w-6 h-6 text-white" strokeWidth={2.5} />
-                </div>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-2xl font-black bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 bg-clip-text text-transparent tracking-tight">
-                  EcoLoop
-                </span>
-                <span className="text-[10px] text-gray-600 font-bold tracking-wider uppercase -mt-1">
-                  Kerala's Platform
-                </span>
+            <Link to="/" className="flex items-center gap-3">
+              <img src="/logo-simple.svg" alt="EcoLoop logo" className="w-10 h-10" />
+              <div>
+                <span className="text-2xl font-extrabold text-gray-900">EcoLoop</span>
+                <div className="text-xs text-gray-500">Kerala</div>
               </div>
             </Link>
           </div>
@@ -261,15 +252,13 @@ const Navbar: React.FC<NavigationBarProps> = ({ isLoggedIn, userName, userRole, 
               </div>
             ) : (
               <div className="flex items-center space-x-3">
-                <Link to="/login" className="text-gray-700 hover:text-emerald-600 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 hover:bg-emerald-50/80">
+                <Link to="/login" className="text-gray-700 hover:text-emerald-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
                   Log In
                 </Link>
-                
-                <Link to="/signup" className="relative group bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white px-6 py-2.5 rounded-xl text-sm font-bold shadow-lg shadow-emerald-500/30 hover:shadow-emerald-500/50 transition-all duration-300 transform hover:scale-105 overflow-hidden">
-                  <div className="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
-                  <span className="relative flex items-center gap-2">
+                <Link to="/signup" className="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-md text-sm font-semibold shadow-md btn-animate btn-press">
+                  <span className="flex items-center gap-2">
                     <Sparkles className="w-4 h-4" strokeWidth={2.5} />
-                    Sign Up Free
+                    Sign Up
                   </span>
                 </Link>
               </div>

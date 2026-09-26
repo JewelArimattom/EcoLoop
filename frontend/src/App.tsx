@@ -8,6 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import NavigationBar from './components/layout/Navbar';
 import Footer from './components/footer/Footer';
 import HomePage from './components/homepage/HomePage';
+import useReveal from './hooks/useReveal';
 
 // Lazy load non-critical routes
 const SchedulePickup = lazy(() => import('./pages/SchedulePickup'));
@@ -72,6 +73,9 @@ const ProtectedRoute: React.FC<{ children: React.ReactElement; allowedRoles?: st
 // Main App Content (needs to be inside AuthProvider)
 const AppContent: React.FC = () => {
   const { isAuthenticated, user, logout } = useAuth();
+
+  // initialize reveal-on-scroll
+  useReveal();
 
   return (
     <div className="flex flex-col min-h-screen">

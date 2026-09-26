@@ -15,8 +15,8 @@ const HomePage: React.FC = () => {
     <div className="min-h-screen bg-white">
       <HeroSection />
 
-      {/* How It Works - 3 Steps */}
-      <section className="py-16 md:py-24 bg-gradient-to-b from-white to-green-50">
+  {/* How It Works - 3 Steps */}
+  <section className="py-16 md:py-24 bg-gradient-to-b from-white to-green-50 reveal">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-4">
@@ -80,8 +80,8 @@ const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* What We Collect - Simplified */}
-      <section className="py-16 md:py-24 bg-white">
+  {/* What We Collect - Simplified */}
+  <section className="py-16 md:py-24 bg-white reveal">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-4">
@@ -133,8 +133,8 @@ const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* For Scrap Collectors - Enhanced */}
-      <section className="py-12 md:py-20 bg-gradient-to-br from-green-50 to-emerald-50">
+  {/* For Scrap Collectors - Enhanced */}
+  <section className="py-12 md:py-20 bg-gradient-to-br from-green-50 to-emerald-50 reveal">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
             <div>
@@ -210,8 +210,8 @@ const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* Why Choose EcoLoop */}
-      <section className="py-16 md:py-24 bg-white">
+  {/* Why Choose EcoLoop */}
+  <section className="py-16 md:py-24 bg-white reveal">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-4">
@@ -285,8 +285,8 @@ const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* Final CTA */}
-      <section className="py-16 md:py-20 bg-green-600 text-white">
+  {/* Final CTA */}
+  <section className="py-16 md:py-20 bg-green-600 text-white reveal">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-black mb-6">
             Ready to Make Kerala Cleaner?
